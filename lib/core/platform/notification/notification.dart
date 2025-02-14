@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
-import 'notification_channel.dart';
+import 'notification_default.dart';
 import 'notification_windows.dart';
 import 'notification_web.dart';
 import 'notification_interface.dart';
+import "../../utils/platform.dart";
 
 class NotificationPlatform {
   late NotificationAbstract _platform;
@@ -12,15 +12,12 @@ class NotificationPlatform {
   NotificationPlatform._();
 
   Future<void> initialize() async {
-    if (kIsWeb) {
+    if (Platform.isWeb) {
       _platform = NotificationWeb();
+    } else if (Platform.isWindows) {
+      _platform = NotificationWindows();
     } else {
-      // 在非 web 平台上才导入 dart:io
-      if (defaultTargetPlatform == TargetPlatform.windows) {
-        _platform = NotificationWindows();
-      } else {
-        _platform = NotificationDefault();
-      }
+      _platform = NotificationDefault();
     }
 
     await _platform.initialize();
