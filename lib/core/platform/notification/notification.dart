@@ -1,6 +1,6 @@
 import 'dart:io' show Platform;
 
-import 'package:flutter_im/core/plugins/notification/notification_interface.dart';
+import 'package:flutter_im/core/platform/notification/notification_interface.dart';
 
 import 'notification_channel.dart';
 // import 'notification_linux.dart.del';

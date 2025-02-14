@@ -14,7 +14,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_im/pages/record_page.dart';
 
-import '../core/plugins/notification/notification.dart';
+import '../core/platform/notification/notification.dart';
 
 class FeaturePage extends StatelessWidget {
   final DatabaseHelper dbHelper = DatabaseHelper.instance;
