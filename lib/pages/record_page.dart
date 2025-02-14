@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:record/record.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../core/platform/record/record.dart';
 
 class RecordPage extends StatefulWidget {
   const RecordPage({super.key});
@@ -12,7 +13,7 @@ class RecordPage extends StatefulWidget {
 class _RecordPageState extends State<RecordPage> {
   bool showPlayer = false;
   String? audioPath;
-  final _audioRecorder = AudioRecorder();
+  final _audioRecorder = Recorder();
   bool _isRecording = false;
 
   @override
@@ -30,14 +31,7 @@ class _RecordPageState extends State<RecordPage> {
             '${dir.path}/record_${DateTime.now().millisecondsSinceEpoch}.m4a';
 
         // 开始录音
-        await _audioRecorder.start(
-          RecordConfig(
-            encoder: AudioEncoder.aacLc,
-            bitRate: 128000,
-            sampleRate: 44100,
-          ),
-          path: filePath,
-        );
+        await _audioRecorder.start(path: filePath);
 
         setState(() {
           _isRecording = true;
