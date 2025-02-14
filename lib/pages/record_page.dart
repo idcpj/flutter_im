@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:record/record.dart';
 import 'package:path_provider/path_provider.dart';
@@ -80,29 +79,34 @@ class _RecordPageState extends State<RecordPage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: showPlayer
-              ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25),
-                  child: Text(audioPath ?? ''),
-                )
-              : Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: !_isRecording ? _startRecording : null,
-                      child: const Text('开始录音'),
-                    ),
-                    const SizedBox(width: 20),
-                    ElevatedButton(
-                      onPressed: _isRecording ? _stopRecording : null,
-                      child: const Text('停止录音'),
-                    ),
-                  ],
-                ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('录音'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
         ),
+      ),
+      body: Center(
+        child: showPlayer
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: Text(audioPath ?? ''),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: !_isRecording ? _startRecording : null,
+                    child: const Text('开始录音'),
+                  ),
+                  const SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: _isRecording ? _stopRecording : null,
+                    child: const Text('停止录音'),
+                  ),
+                ],
+              ),
       ),
     );
   }

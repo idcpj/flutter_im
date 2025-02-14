@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_im/helpers/notification_helper.dart';
-import 'package:flutter_im/widgets/record_button.dart';
-import 'package:flutter_im/helpers/database_helper.dart';
+import 'package:flutter_im/core/helpers/database_helper.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
@@ -15,13 +13,15 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_im/pages/record_page.dart';
+import 'package:flutter_im/core/helpers/notification_helper.dart';
 
 class FeaturePage extends StatelessWidget {
   final NotificationHelper notificationHelper = NotificationHelper.instance;
   final DatabaseHelper dbHelper = DatabaseHelper.instance;
+  final _notificationHelper = NotificationHelper.instance;
 
   FeaturePage({super.key}) {
-    notificationHelper.initialize();
+    _notificationHelper.initialize();
   }
 
   @override
@@ -109,7 +109,7 @@ class FeaturePage extends StatelessWidget {
   }
 
   Future<void> _testNotification(BuildContext context) async {
-    await notificationHelper.showNotification(
+    await _notificationHelper.show(
       title: '测试通知',
       body: '这是测试通知内容',
     );
