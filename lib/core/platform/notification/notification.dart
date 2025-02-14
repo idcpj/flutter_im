@@ -12,8 +12,6 @@ class NotificationPlatform {
   NotificationPlatform._();
 
   Future<void> initialize() async {
-    debugPrint('[notification] 初始化通知平台: $kIsWeb');
-
     if (kIsWeb) {
       _platform = NotificationWeb();
     } else {
