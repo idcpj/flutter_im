@@ -12,7 +12,7 @@ class GeolocatorPlatform {
     await _isAllow();
     final position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.lowest,
-      forceAndroidLocationManager: true,
+      forceAndroidLocationManager: true, // 国内没有谷歌服务,强制使用设备定位
       timeLimit: const Duration(seconds: 3),
     );
     return position;
