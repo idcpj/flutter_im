@@ -2,8 +2,12 @@ import 'dart:html' as html;
 import 'package:flutter/foundation.dart';
 import 'notification_interface.dart';
 
-class NotificationWeb implements NotificationAbstract {
+class NotificationDefault implements NotificationAbstract {
   bool _initialized = false;
+
+  NotificationDefault() {
+    initialize();
+  }
 
   @override
   Future<void> initialize() async {

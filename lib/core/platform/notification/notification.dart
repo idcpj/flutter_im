@@ -1,6 +1,8 @@
-import 'notification_default.dart';
+import 'notification_default.dart'
+    if (dart.library.html) 'notification_web.dart';
+
 import 'notification_windows.dart';
-import 'notification_web.dart';
+
 import 'notification_interface.dart';
 import "../../utils/platform.dart";
 
@@ -13,14 +15,12 @@ class NotificationPlatform {
 
   Future<void> initialize() async {
     if (Platform.isWeb) {
-      _platform = NotificationWeb();
+      _platform = NotificationDefault();
     } else if (Platform.isWindows) {
       _platform = NotificationWindows();
     } else {
       _platform = NotificationDefault();
     }
-
-    await _platform.initialize();
   }
 
   Future<void> show({required String title, required String body}) =>

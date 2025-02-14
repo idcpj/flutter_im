@@ -1,11 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import '../../exceptions/initialize_exception.dart';
 import 'notification_interface.dart';
 
 class NotificationDefault implements NotificationAbstract {
   final _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  bool _initialized = false;
 
-  @override
+  NotificationDefault() {
+    initialize();
+  }
+
   Future<void> initialize() async {
     // 移动端配置
     const settingsAndroid = AndroidInitializationSettings('@mipmap/ic_push');
@@ -33,10 +38,11 @@ class NotificationDefault implements NotificationAbstract {
     );
 
     if (res == false) {
-      throw Exception('[notification] 移动端初始化失败');
+      throw InitializeException('[notification] 移动端初始化失败');
     }
 
     debugPrint("[notification] 移动端初始化成功");
+    _initialized = true;
   }
 
   void _handleBackgroundNotification(NotificationResponse details) {
@@ -45,6 +51,10 @@ class NotificationDefault implements NotificationAbstract {
 
   @override
   Future<void> show({required String title, required String body}) async {
+    if (!_initialized) {
+      throw InitializeException('[notification] 通知未初始化，请先调用 initialize()');
+    }
+
     const androidDetails = AndroidNotificationDetails(
       'your_channel_id',
       'your_channel_name',

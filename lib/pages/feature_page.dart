@@ -14,11 +14,13 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_im/pages/record_page.dart';
 
+import '../core/platform/log/log.dart';
 import '../core/platform/notification/notification.dart';
 
 class FeaturePage extends StatelessWidget {
   final DatabaseHelper dbHelper = DatabaseHelper.instance;
   final _notificationHelper = NotificationPlatform.instance;
+  final _logHelper = LogPlatform.instance;
 
   FeaturePage({super.key}) {
     _notificationHelper.initialize();
@@ -50,9 +52,17 @@ class FeaturePage extends StatelessWidget {
           _buildButton(context, '文件下载', _downloadFile),
           _buildButton(context, '调用文件', _pickFile),
           _buildButton(context, '通知测试', _testNotification),
+          _buildButton(context, '日志测试', _testLog),
         ],
       ),
     );
+  }
+
+  Future<void> _testLog(BuildContext context) async {
+    _logHelper.debug('测试日志');
+    _logHelper.info('测试日志');
+    _logHelper.warning('测试日志');
+    _logHelper.error('测试日志');
   }
 
   Future<void> _initDb(BuildContext context) async {

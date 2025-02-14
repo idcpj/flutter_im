@@ -52,6 +52,7 @@ dependencies:
   flutter_local_notifications_windows: ^1.0.0-dev.3
   record: ^5.2.0
   plugin_platform_interface: ^2.1.8
+  logging: ^1.2.0
 
 dev_dependencies:
   flutter_test:
