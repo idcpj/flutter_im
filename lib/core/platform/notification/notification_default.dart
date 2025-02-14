@@ -45,7 +45,7 @@ class NotificationDefault implements NotificationAbstract {
     _initialized = true;
   }
 
-  void _handleBackgroundNotification(NotificationResponse details) {
+  static void _handleBackgroundNotification(NotificationResponse details) {
     debugPrint('[notification] 移动端收到后台通知: $details');
   }
 
