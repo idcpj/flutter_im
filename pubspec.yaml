@@ -50,7 +50,6 @@ dependencies:
   flutter_notification_service: ^1.0.0
   flutter_local_notifications: ^18.0.1
   flutter_local_notifications_windows: ^1.0.0-dev.3
-  flutter_local_notifications_linux: ^5.0.0
   record: ^5.2.0
   plugin_platform_interface: ^2.1.8
 

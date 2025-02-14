@@ -47,6 +47,8 @@ class _RecordPageState extends State<RecordPage> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('开始录音')),
+          snackBarAnimationStyle:
+              AnimationStyle(duration: const Duration(seconds: 1)),
         );
       }
     } catch (e) {
@@ -88,25 +90,29 @@ class _RecordPageState extends State<RecordPage> {
         ),
       ),
       body: Center(
-        child: showPlayer
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25),
-                child: Text(audioPath ?? ''),
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: !_isRecording ? _startRecording : null,
-                    child: const Text('开始录音'),
-                  ),
-                  const SizedBox(width: 20),
-                  ElevatedButton(
-                    onPressed: _isRecording ? _stopRecording : null,
-                    child: const Text('停止录音'),
-                  ),
-                ],
-              ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: Text(audioPath ?? ''),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: !_isRecording ? _startRecording : null,
+                  child: const Text('开始录音'),
+                ),
+                const SizedBox(width: 20),
+                ElevatedButton(
+                  onPressed: _isRecording ? _stopRecording : null,
+                  child: const Text('停止录音'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

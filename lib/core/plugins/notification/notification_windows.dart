@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications_windows/flutter_local_notifications_windows.dart';
-import 'notification_platform_interface.dart';
+import 'notification_interface.dart';
 
-class WindowsNotification extends NotificationPlatform {
+class NotificationWindows implements NotificationAbstract {
   final _notifications = FlutterLocalNotificationsWindows();
 
   @override
@@ -14,6 +15,8 @@ class WindowsNotification extends NotificationPlatform {
 
     final res = await _notifications.initialize(settings);
     if (res == false) throw Exception('Windows通知初始化失败');
+
+    debugPrint('[notification] Windows通知初始化成功');
   }
 
   @override

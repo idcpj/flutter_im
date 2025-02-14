@@ -1,19 +1,30 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'notification_platform_interface.dart';
+import 'notification_interface.dart';
 
-class MethodChannelNotification extends NotificationPlatform {
+class NotificationDefault implements NotificationAbstract {
   final _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   @override
   Future<void> initialize() async {
-    const initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_push');
-    const initializationSettingsDarwin = DarwinInitializationSettings();
+    // 移动端配置
+    const settingsAndroid = AndroidInitializationSettings('@mipmap/ic_push');
 
+    // 苹果端配置
+    const settingsDarwin = DarwinInitializationSettings();
+
+    // Linux端配置
+    final settingsLinux = LinuxInitializationSettings(
+      defaultActionName: 'defaultActionName',
+      defaultIcon: AssetsLinuxIcon("assets/images/ic_push.png"),
+      defaultSound: AssetsLinuxSound("assets/sounds/slow_spring_board.mp3"),
+    );
+
+    // 初始化
     final initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsDarwin,
+      android: settingsAndroid,
+      iOS: settingsDarwin,
+      linux: settingsLinux,
     );
 
     final res = await _flutterLocalNotificationsPlugin.initialize(
@@ -22,12 +33,14 @@ class MethodChannelNotification extends NotificationPlatform {
     );
 
     if (res == false) {
-      throw Exception('[notification] 初始化失败');
+      throw Exception('[notification] 移动端初始化失败');
     }
+
+    debugPrint("[notification] 移动端初始化成功");
   }
 
   void _handleBackgroundNotification(NotificationResponse details) {
-    debugPrint('[notification] 收到后台通知: $details');
+    debugPrint('[notification] 移动端收到后台通知: $details');
   }
 
   @override

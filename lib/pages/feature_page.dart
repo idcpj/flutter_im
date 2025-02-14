@@ -13,12 +13,12 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_im/pages/record_page.dart';
-import 'package:flutter_im/core/helpers/notification_helper.dart';
+
+import '../core/plugins/notification/notification.dart';
 
 class FeaturePage extends StatelessWidget {
-  final NotificationHelper notificationHelper = NotificationHelper.instance;
   final DatabaseHelper dbHelper = DatabaseHelper.instance;
-  final _notificationHelper = NotificationHelper.instance;
+  final _notificationHelper = NotificationPlatform.instance;
 
   FeaturePage({super.key}) {
     _notificationHelper.initialize();
