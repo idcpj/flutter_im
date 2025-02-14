@@ -8,6 +8,7 @@ class LogDefault implements LogAbstract {
 
   LogDefault() {
     _initLogger();
+    debugPrint('[log] Default日志初始化成功');
   }
 
   void _initLogger() {

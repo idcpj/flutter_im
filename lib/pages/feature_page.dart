@@ -59,10 +59,11 @@ class FeaturePage extends StatelessWidget {
   }
 
   Future<void> _testLog(BuildContext context) async {
-    _logHelper.debug('测试日志');
-    _logHelper.info('测试日志');
-    _logHelper.warning('测试日志');
-    _logHelper.error('测试日志');
+    _logHelper.debug('测试日志 debug');
+    _logHelper.info('测试日志 info');
+    _logHelper.warning('测试日志 warning');
+    _logHelper.error('测试日志 error');
+    _logHelper.critical('测试日志 critical');
   }
 
   Future<void> _initDb(BuildContext context) async {

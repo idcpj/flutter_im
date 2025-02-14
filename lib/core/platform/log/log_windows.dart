@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import '../../exceptions/initialize_exception.dart';
@@ -12,6 +13,8 @@ class LogWindows implements LogAbstract {
 
   LogWindows({String logPath = ''}) {
     _initLogger(logPath);
+
+    debugPrint('[log] Windows日志初始化成功');
   }
 
   Future<void> _initLogger(String customLogPath) async {
@@ -20,8 +23,12 @@ class LogWindows implements LogAbstract {
     // 设置日志级别
     Logger.root.level = Level.ALL;
 
-    final logPath =
-        path.join(customLogPath, 'log_${DateTime.now().toIso8601String()}.log');
+    final appDir = await getApplicationDocumentsDirectory();
+
+    final logPath = path.join(appDir.path, customLogPath,
+        'log_${DateTime.now().toIso8601String().replaceAll(':', '-').replaceAll('.', '_')}.log');
+
+    debugPrint('[log] 日志路径: $logPath');
 
     // 确保日志目录存在
     final logDir = Directory(path.dirname(logPath));
