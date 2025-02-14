@@ -1,7 +1,7 @@
 import 'sdk_exception.dart';
 
 class HttpException extends SdkException {
-  HttpException(String message) : super(message);
+  HttpException(super.message);
 
   @override
   String toString() => 'HttpException: $message';

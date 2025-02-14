@@ -5,7 +5,6 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:dio/dio.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,11 +15,13 @@ import 'package:flutter_im/pages/record_page.dart';
 
 import '../core/platform/log/log.dart';
 import '../core/platform/notification/notification.dart';
+import '../core/platform/geolocator/geolocator.dart';
 
 class FeaturePage extends StatelessWidget {
   final DatabaseHelper dbHelper = DatabaseHelper.instance;
   final _notificationHelper = NotificationPlatform.instance;
   final _logHelper = LogPlatform.instance;
+  final _geolocatorHelper = GeolocatorPlatform.instance;
 
   FeaturePage({super.key}) {
     _notificationHelper.initialize();
@@ -218,10 +219,13 @@ class FeaturePage extends StatelessWidget {
   }
 
   Future<void> _getLocation(BuildContext context) async {
-    if (!await _requestPermission(Permission.location, context)) return;
+    debugPrint('触发 获取位置');
+    // if (!await _requestPermission(Permission.location, context)) return;
 
     try {
-      final position = await Geolocator.getCurrentPosition();
+      final position = await _geolocatorHelper.getCurrentPosition();
+
+      debugPrint('当前位置: ${position.latitude}, ${position.longitude}');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text('当前位置: ${position.latitude}, ${position.longitude}')),
