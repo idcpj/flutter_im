@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sdco/core/network/socket/socket_tcp.dart';
-import 'package:sdco/core/network/socket/socket_websocket.dart';
+import '../../packages/core/network/socket/socket_tcp.dart';
+import '../../packages/core/network/socket/socket_websocket.dart';
 
 void main() {
   group('SocketTCP Tests', () {

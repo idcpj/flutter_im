@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../core/platform/record/record.dart';
+import '../../core/platform/record/record.dart';
 
 class RecordPage extends StatefulWidget {
   const RecordPage({super.key});

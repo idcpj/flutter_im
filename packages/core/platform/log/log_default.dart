@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:logging/logging.dart';
-import 'log_interface.dart';
+import '../../types/log.dart';
 
 class LogDefault implements LogAbstract {
   final Logger _logger = Logger('DefaultLogger');

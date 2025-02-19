@@ -1,9 +1,9 @@
-import 'package:flutter_im/core/constants/const.dart';
+import '../../constants/const.dart';
 
+import '../../types/log.dart';
 import 'log_default.dart';
 import 'log_windows.dart';
 import '../../utils/platform.dart';
-import 'log_interface.dart';
 
 class LogPlatform {
   late final LogAbstract _platform;

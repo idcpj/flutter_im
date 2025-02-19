@@ -4,7 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import '../../exceptions/initialize_exception.dart';
-import 'log_interface.dart';
+import '../../types/log.dart';
 
 class LogWindows implements LogAbstract {
   final Logger _logger = Logger('WindowsLogger');

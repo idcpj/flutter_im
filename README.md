@@ -3,12 +3,6 @@
 
 一个基于Flutter的IM应用，支持Web、iOS、Android。
 
-# 依赖
-## sqflite
+# workspace 使用
 
-
-```
-cd web/assets
-curl -L https://github.com/sql-js/sql.js/raw/master/dist/sql-wasm.js > sql-wasm.js
-curl -L https://unpkg.com/browse/sql.js@1.8.0/dist/sql-wasm.wasm  >  sql-wasm.wasm
-```
+暂不支持 worksapce ,但是写法上先按 workspace,之后等 fltter harmony 更新到 dart>3.5

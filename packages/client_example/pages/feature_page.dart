@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_im/core/helpers/database_helper.dart';
+import '../../core/helpers/database_helper.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:camera/camera.dart';
@@ -11,11 +11,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_im/pages/record_page.dart';
+import 'record_page.dart';
 
-import '../core/platform/log/log.dart';
-import '../core/platform/notification/notification.dart';
-import '../core/platform/geolocator/geolocator.dart';
+import '../../core/platform/log/log.dart';
+import '../../core/platform/notification/notification.dart';
+import '../../core/platform/geolocator/geolocator.dart';
 
 class FeaturePage extends StatelessWidget {
   final DatabaseHelper dbHelper = DatabaseHelper.instance;

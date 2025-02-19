@@ -1,7 +1,5 @@
 import 'package:local_notifier/local_notifier.dart';
-import '../../exceptions/initialize_exception.dart';
 import 'notification_interface.dart';
-import "package:local_notifier/local_notifier.dart";
 import 'package:package_info_plus/package_info_plus.dart';
 
 class NotificationWindows implements NotificationAbstract {

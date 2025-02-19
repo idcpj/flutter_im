@@ -12,7 +12,7 @@ notification/
 
 所有的平台判断
 ```
-export '../plugins/notification_method_channel.dart' // 默认
+export '../../../lib/core/plugins/notification_method_channel.dart' // 默认
     if (dart.library.html) 'notification_web.dart' // Web
     if (dart.library.windows) 'notification_windows.dart' // Windows
     if (dart.library.io) 'notification_method_channel.dart' // Android/iOS
