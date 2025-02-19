@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/flutter_hook.dart';
 import '../widgets/riverpod.dart';
+import '../widgets/riverpod_network.dart';
 import '../widgets/riverpod_obj.dart';
 
 class PackPage extends StatelessWidget {
@@ -19,6 +20,8 @@ class PackPage extends StatelessWidget {
           _buildButton(context, 'flutter_hook', () => const FlutterHook()),
           _buildButton(context, 'riverpod', () => const RiverpodExample()),
           _buildButton(context, 'riverpod_obj', () => const RiverpodObj()),
+          _buildButton(
+              context, 'riverpod_network', () => const RiverpodNetwork()),
         ],
       ),
     );
