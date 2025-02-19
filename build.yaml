@@ -1,0 +1,10 @@
+targets:
+  $default:
+    sources:
+      include:
+        - $package$
+        - lib/$lib$
+        - packages/**/widgets/*.dart        # 添加额外的目录
+    builders:
+      riverpod_generator:
+        enabled: true
