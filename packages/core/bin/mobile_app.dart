@@ -5,7 +5,7 @@ import '../constants/constants.dart';
 import '../domain/services/config_service.dart';
 import '../domain/services/user_service.dart';
 import '../helpers/event.dart';
-import '../io/tcp.dart';
+import '../io/tcp_client.dart';
 import '../platform/log/log.dart';
 import '../types/types.dart';
 
@@ -29,7 +29,9 @@ class MobileApp implements AppAbstract {
     _eventBus = EventBus();
 
     // 初始化 socket
-    _socket = TcpClient(log: _log!);
+    _socket = TcpClient(
+      log: _log!,
+    );
     _socket!.bind((data) {
       final message = Message.fromBytes(data);
       _eventBus?.emit(message.header.cmd, message);
@@ -41,7 +43,7 @@ class MobileApp implements AppAbstract {
   }
 
   Future<void> connect() async {
-    await _socket?.connect(_config.net.host, _config.net.port);
+    await _socket?.connect();
   }
 
   disconnect() {
@@ -94,4 +96,7 @@ class MobileApp implements AppAbstract {
 
   @override
   AppConfig get config => _config;
+
+  @override
+  ConfigService get configService => _configService!;
 }

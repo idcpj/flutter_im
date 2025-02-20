@@ -11,11 +11,17 @@ class LogConfig {
   LogConfig({this.path = ""});
 }
 
+class DbConfig {
+  String path;
+  String dbName;
+
+  DbConfig({required this.path, required this.dbName});
+}
+
 class AppConfig {
   NetConfig net;
   LogConfig log;
+  DbConfig db;
 
-  AppConfig({required NetConfig net, required LogConfig log})
-      : net = net,
-        log = log;
+  AppConfig({required this.net, required this.log, required this.db});
 }

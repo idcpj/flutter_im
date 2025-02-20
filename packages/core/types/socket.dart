@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import '../config/config.dart';
 import 'types.dart';
 
 abstract class SocketAbstract {
@@ -7,7 +8,7 @@ abstract class SocketAbstract {
   bool get isConnected;
 
   // 连接服务器
-  Future<void> connect(String host, int port);
+  Future<void> connect();
 
   // 断开连接
   void disconnect();
@@ -17,4 +18,5 @@ abstract class SocketAbstract {
 
   // 绑定回调
   void bind(TcpCallback data);
+  void setConfig(NetConfig conf);
 }

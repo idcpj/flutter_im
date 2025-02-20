@@ -20,6 +20,8 @@ class Platform {
   static bool get isMobile => isAndroid || isIOS;
 
   static bool get isDesktop => isWindows || isMacOS || isLinux;
+
+  static String get name => defaultTargetPlatform.toString();
 }
 
 class PlatformCode {

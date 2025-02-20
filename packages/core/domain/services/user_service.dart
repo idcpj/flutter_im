@@ -11,8 +11,9 @@ class UserService extends BaseService {
     userHook = UserHook(app);
   }
 
-  Future<void> login(String loginName, String password, String saasName, EnTypeType enType) async {
-    final msg = buildMessage(CMD_LOGIN);
+  Future<void> login(String loginName, String password, String saasName,
+      EnTypeType enType) async {
+    final msg = buildMessage(CmdCode.login);
 
     // todo 需要根据平台来判断
     final platform = PlatformCode.getCode(PlatformType.android);
