@@ -1,10 +1,9 @@
-import 'notification_default.dart'
-    if (dart.library.html) 'notification_web.dart';
+import 'notification_default.dart' if (dart.library.html) 'notification_web.dart';
 
 import 'notification_windows.dart';
 
 import 'notification_interface.dart';
-import "../../utils/platform.dart";
+import "../../helpers/platform.dart";
 
 class NotificationPlatform {
   late NotificationAbstract _platform;
@@ -23,6 +22,5 @@ class NotificationPlatform {
     }
   }
 
-  Future<void> show({required String title, required String body}) =>
-      _platform.show(title: title, body: body);
+  Future<void> show({required String title, required String body}) => _platform.show(title: title, body: body);
 }

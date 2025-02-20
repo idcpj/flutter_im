@@ -20,7 +20,7 @@ import '../../core/platform/geolocator/geolocator.dart';
 class FeaturePage extends StatelessWidget {
   final DatabaseHelper dbHelper = DatabaseHelper.instance;
   final _notificationHelper = NotificationPlatform.instance;
-  final _logHelper = LogPlatform.instance;
+  final _logHelper = LogPlatform(path: 'log');
   final _geolocatorHelper = GeolocatorPlatform.instance;
 
   FeaturePage({super.key}) {
@@ -71,7 +71,7 @@ class FeaturePage extends StatelessWidget {
     try {
       await DatabaseHelper.initializeDatabase();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('数据库初始化成功')),
+        const SnackBar(content: Text('数据库初始化成功')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -84,7 +84,7 @@ class FeaturePage extends StatelessWidget {
     try {
       await dbHelper.createPerson('张三', 20);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('数据库插入成功')),
+        const SnackBar(content: Text('数据库插入成功')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -106,8 +106,7 @@ class FeaturePage extends StatelessWidget {
     }
   }
 
-  Widget _buildButton(BuildContext context, String text,
-      Future<void> Function(BuildContext) onPressed) {
+  Widget _buildButton(BuildContext context, String text, Future<void> Function(BuildContext) onPressed) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: ElevatedButton(
@@ -201,11 +200,7 @@ class FeaturePage extends StatelessWidget {
 
   Future<void> _openGallery(BuildContext context) async {
     final deviceInfo = DeviceInfoPlugin();
-    final permission = Platform.isAndroid &&
-            await deviceInfo.androidInfo
-                .then((info) => info.version.sdkInt >= 33)
-        ? Permission.photos
-        : Permission.storage;
+    final permission = Platform.isAndroid && await deviceInfo.androidInfo.then((info) => info.version.sdkInt >= 33) ? Permission.photos : Permission.storage;
 
     if (!await _requestPermission(permission, context)) return;
 
@@ -227,8 +222,7 @@ class FeaturePage extends StatelessWidget {
 
       debugPrint('当前位置: ${position.latitude}, ${position.longitude}');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            content: Text('当前位置: ${position.latitude}, ${position.longitude}')),
+        SnackBar(content: Text('当前位置: ${position.latitude}, ${position.longitude}')),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -262,8 +256,9 @@ class FeaturePage extends StatelessWidget {
 
   Future<void> _pickFile(BuildContext context) async {
     // 在 Web 平台上不需要存储权限
-    if (!kIsWeb && !await _requestPermission(Permission.storage, context))
+    if (!kIsWeb && !await _requestPermission(Permission.storage, context)) {
       return;
+    }
 
     try {
       // 配置 FileType 和 允许的文件扩展名
@@ -291,15 +286,11 @@ class FeaturePage extends StatelessWidget {
           );
         } else {
           // 移动端和桌面端处理
-          List<File> files = result.paths
-              .where((path) => path != null)
-              .map((path) => File(path!))
-              .toList();
+          List<File> files = result.paths.where((path) => path != null).map((path) => File(path!)).toList();
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content:
-                  Text('已选择 ${files.length} 个文件\n首文件: ${files.first.path}'),
+              content: Text('已选择 ${files.length} 个文件\n首文件: ${files.first.path}'),
               duration: const Duration(seconds: 3),
             ),
           );
@@ -312,8 +303,7 @@ class FeaturePage extends StatelessWidget {
     }
   }
 
-  Future<bool> _requestPermission(
-      Permission permission, BuildContext context) async {
+  Future<bool> _requestPermission(Permission permission, BuildContext context) async {
     if (await permission.isGranted) {
       return true;
     }

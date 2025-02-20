@@ -4,7 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import '../../exceptions/initialize_exception.dart';
-import '../../types/log.dart';
+import '../../types/types.dart';
 
 class LogWindows implements LogAbstract {
   final Logger _logger = Logger('WindowsLogger');
@@ -25,8 +25,7 @@ class LogWindows implements LogAbstract {
 
     final appDir = await getApplicationDocumentsDirectory();
 
-    final logPath = path.join(appDir.path, customLogPath,
-        'log_${DateTime.now().toIso8601String().replaceAll(':', '-').replaceAll('.', '_')}.log');
+    final logPath = path.join(appDir.path, customLogPath, 'log_${DateTime.now().toIso8601String().replaceAll(':', '-').replaceAll('.', '_')}.log');
 
     debugPrint('[log] 日志路径: $logPath');
 

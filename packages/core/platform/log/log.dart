@@ -1,35 +1,36 @@
-import '../../constants/const.dart';
-
-import '../../types/log.dart';
+import '../../types/types.dart';
+import '../../helpers/platform.dart';
 import 'log_default.dart';
 import 'log_windows.dart';
-import '../../utils/platform.dart';
 
-class LogPlatform {
-  late final LogAbstract _platform;
+class LogPlatform extends LogAbstract {
+  late final LogAbstract _log;
 
-  // 私有构造函数
-  static final LogPlatform instance = LogPlatform._();
-  LogPlatform._() {
+  LogPlatform({String path = ""}) {
     if (Platform.isDesktop) {
-      _platform = LogWindows(logPath: projectLog);
+      _log = LogWindows(logPath: path);
     } else {
-      _platform = LogDefault();
+      _log = LogDefault();
     }
   }
 
-  void debug(String message, [Object? error, StackTrace? stackTrace]) =>
-      _platform.debug(message, error, stackTrace);
+  void debug(String message, [Object? err, StackTrace? stackTrace]) {
+    _log.debug(message, err, stackTrace);
+  }
 
-  void info(String message, [Object? error, StackTrace? stackTrace]) =>
-      _platform.info(message, error, stackTrace);
+  void info(String message, [Object? err, StackTrace? stackTrace]) {
+    _log.info(message, err, stackTrace);
+  }
 
-  void warning(String message, [Object? error, StackTrace? stackTrace]) =>
-      _platform.warning(message, error, stackTrace);
+  void warning(String message, [Object? err, StackTrace? stackTrace]) {
+    _log.warning(message, err, stackTrace);
+  }
 
-  void error(String message, [Object? error, StackTrace? stackTrace]) =>
-      _platform.error(message, error, stackTrace);
+  void error(String message, [Object? err, StackTrace? stackTrace]) {
+    _log.error(message, err, stackTrace);
+  }
 
-  void critical(String message, [Object? error, StackTrace? stackTrace]) =>
-      _platform.critical(message, error, stackTrace);
+  void critical(String message, [Object? err, StackTrace? stackTrace]) {
+    _log.critical(message, err, stackTrace);
+  }
 }

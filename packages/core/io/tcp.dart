@@ -1,13 +1,12 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../types/log.dart';
 import '../types/types.dart';
 
-class TcpClient {
+class TcpClient extends SocketAbstract {
   Socket? _socket;
-  TcpBindHandle? _handle;
-  LogAbstract? _log;
+  TcpCallback? _handle;
+  LogAbstract _log;
 
   String? host;
   int? port;
@@ -15,7 +14,7 @@ class TcpClient {
   // 连接状态
   bool get isConnected => _socket != null;
 
-  TcpClient({LogAbstract? log});
+  TcpClient({required LogAbstract log}) : _log = log;
 
   // 连接服务器
   Future<void> connect(String host, int port) async {
@@ -25,9 +24,10 @@ class TcpClient {
     if (port <= 0) {
       throw ArgumentError('Port is less than 0');
     }
+    _log.info('Connecting to: $host:$port');
 
     _socket = await Socket.connect(host, port);
-    _log?.info('Connected to: $host:$port');
+    _log.info('Connected to: $host:$port');
 
     // 监听数据
     _socket!.listen(
@@ -35,28 +35,32 @@ class TcpClient {
         _handle?.call(data);
       },
       onError: (error) {
-        _log?.error('Error: $error');
+        _log.error('Error: $error');
         disconnect();
       },
       onDone: () {
-        _log?.info('Server disconnected');
+        _log.info('Server disconnected');
         disconnect();
       },
     );
   }
 
-  bind_handle_data(TcpBindHandle data) {
+  bind(TcpCallback data) {
     _handle = data;
   }
 
   // 发送数据
-  Future<void> send(String data) async {
+  void send(Uint8List data) {
     if (!isConnected) {
-      throw Exception('Not connected to server');
+      _log.error('Not connected to server');
+      return;
     }
-    _socket!.write(data);
-    // 刷新缓冲区
-    await _socket!.flush();
+    _log.debug('Sending data: ${data.length} bytes');
+
+    // 将 Uint8List 转换为字节流并发送
+    _socket!.add(data);
+
+    _log.debug('Sent data: ${data.length} bytes');
   }
 
   // 断开连接

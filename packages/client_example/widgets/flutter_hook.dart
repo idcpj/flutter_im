@@ -3,7 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 
 // 一个使用 Hook 的计数器示例组件
 class FlutterHook extends HookWidget {
-  const FlutterHook({Key? key}) : super(key: key);
+  const FlutterHook({super.key});
 
   @override
   Widget build(BuildContext context) {

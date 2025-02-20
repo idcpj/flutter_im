@@ -56,7 +56,7 @@ final postStateProvider = StateNotifierProvider<PostNotifier, RequestState>(
 
 // Widget 实现
 class RiverpodNetworkPost extends ConsumerWidget {
-  RiverpodNetworkPost({Key? key}) : super(key: key);
+  RiverpodNetworkPost({super.key});
 
   final titleController = TextEditingController(text: "默认标题");
   final bodyController = TextEditingController(text: "默认内容");
@@ -93,9 +93,7 @@ class RiverpodNetworkPost extends ConsumerWidget {
                             bodyController.text,
                           );
                     },
-              child: postState.isLoading
-                  ? const CircularProgressIndicator()
-                  : const Text('提交'),
+              child: postState.isLoading ? const CircularProgressIndicator() : const Text('提交'),
             ),
             const SizedBox(height: 16),
             if (postState.data != null)

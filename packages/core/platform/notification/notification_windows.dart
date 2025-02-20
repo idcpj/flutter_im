@@ -41,8 +41,8 @@ class NotificationWindows implements NotificationAbstract {
     notification.onClick = () {
       print('onClick ${notification.identifier}');
     };
-    notification?.onClickAction = (actionIndex) {
-      print('onClickAction ${notification?.identifier} - $actionIndex');
+    notification.onClickAction = (actionIndex) {
+      print('onClickAction ${notification.identifier} - $actionIndex');
     };
 
     notification.show();
