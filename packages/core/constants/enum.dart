@@ -1,3 +1,5 @@
+import '../exceptions/exceptions.dart';
+
 enum StaticCode {
   normal, //  0-正常
   error, // 1-出错
@@ -34,6 +36,14 @@ enum EnTypeType {
 
   final int value;
   const EnTypeType(this.value);
+
+  /// 从整数值获取对应的 CmdCode
+  static EnTypeType fromValue(int value) {
+    return EnTypeType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('Invalid value: $value'),
+    );
+  }
 }
 
 // 操作类型
@@ -58,6 +68,12 @@ enum PlatformDesc {
 
   final String value;
   const PlatformDesc(this.value);
+  static PlatformDesc fromValue(String value) {
+    return PlatformDesc.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('PlatformDesc value: $value'),
+    );
+  }
 }
 
 // 客户端类型
@@ -103,6 +119,13 @@ enum MsgStatusType {
 
   final int value;
   const MsgStatusType(this.value);
+
+  static MsgStatusType fromValue(int value) {
+    return MsgStatusType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('MsgStatusType value: $value'),
+    );
+  }
 }
 
 // 撤回指令返回值
@@ -113,6 +136,13 @@ enum MsgWithdrawType {
 
   final int value;
   const MsgWithdrawType(this.value);
+
+  static MsgWithdrawType fromValue(int value) {
+    return MsgWithdrawType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('MsgWithdrawType value: $value'),
+    );
+  }
 }
 
 // 在线状态
@@ -157,6 +187,13 @@ enum MsgExtType {
 
   final String value;
   const MsgExtType(this.value);
+
+  static MsgExtType fromValue(String value) {
+    return MsgExtType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('MsgExtType value: $value'),
+    );
+  }
 }
 
 //登录验证方式
@@ -184,6 +221,13 @@ enum EnType {
 
   final int value;
   const EnType(this.value);
+
+  static EnType fromValue(int value) {
+    return EnType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('EnType value: $value'),
+    );
+  }
 }
 
 // 客户端设置
@@ -216,6 +260,13 @@ enum MsgFlag {
 
   final int value;
   const MsgFlag(this.value);
+
+  static MsgFlag fromValue(int value) {
+    return MsgFlag.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('MsgFlag value: $value'),
+    );
+  }
 }
 
 // 客户端开关
@@ -245,6 +296,12 @@ enum ClientFlag {
 
   final int value;
   const ClientFlag(this.value);
+  static ClientFlag fromValue(int value) {
+    return ClientFlag.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('ClientFlag value: $value'),
+    );
+  }
 }
 
 // 最近消息表
@@ -259,6 +316,13 @@ enum RecentType {
 
   final String value;
   const RecentType(this.value);
+
+  static RecentType fromValue(String value) {
+    return RecentType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('RecentType value: $value'),
+    );
+  }
 }
 
 // 群状态
@@ -289,6 +353,13 @@ enum GroupAce {
 
   final int value;
   const GroupAce(this.value);
+
+  static GroupAce fromValue(int value) {
+    return GroupAce.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('GroupAce value: $value'),
+    );
+  }
 }
 
 // 群通知类型
@@ -308,6 +379,12 @@ enum GroupNotifyType {
 
   final String value;
   const GroupNotifyType(this.value);
+  static GroupNotifyType fromValue(String value) {
+    return GroupNotifyType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('GroupNotifyType value: $value'),
+    );
+  }
 }
 
 // 群类型
@@ -319,6 +396,12 @@ enum GroupType {
 
   final int value;
   const GroupType(this.value);
+  static GroupType fromValue(int value) {
+    return GroupType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('GroupType value: $value'),
+    );
+  }
 }
 
 // 群Flag
@@ -370,6 +453,12 @@ enum MsgBlockType {
 
   final String value;
   const MsgBlockType(this.value);
+  static MsgBlockType fromValue(String value) {
+    return MsgBlockType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('MsgBlockType value: $value'),
+    );
+  }
 }
 
 // 文件类型
@@ -428,6 +517,13 @@ enum OrgType {
 
   final String value;
   const OrgType(this.value);
+
+  static OrgType fromValue(String value) {
+    return OrgType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('OrgType value: $value'),
+    );
+  }
 }
 
 // 人员类型
@@ -436,6 +532,12 @@ enum PersonType {
 
   final String value;
   const PersonType(this.value);
+  static PersonType fromValue(String value) {
+    return PersonType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('PersonType value: $value'),
+    );
+  }
 }
 
 // 密码强度
@@ -462,6 +564,13 @@ enum ProfileViewType {
 
   final int value;
   const ProfileViewType(this.value);
+
+  static ProfileViewType fromValue(int value) {
+    return ProfileViewType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('ProfileViewType value: $value'),
+    );
+  }
 }
 
 // 个人编辑权限
@@ -473,6 +582,13 @@ enum ProfileEditType {
 
   final int value;
   const ProfileEditType(this.value);
+
+  static ProfileEditType fromValue(int value) {
+    return ProfileEditType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('ProfileEditType value: $value'),
+    );
+  }
 }
 
 // 角色消息权限
@@ -487,6 +603,12 @@ enum MsgAceType {
 
   final int value;
   const MsgAceType(this.value);
+  static MsgAceType fromValue(int value) {
+    return MsgAceType.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('MsgAceType value: $value'),
+    );
+  }
 }
 
 // 链接打开方式

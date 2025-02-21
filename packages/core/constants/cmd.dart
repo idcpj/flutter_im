@@ -1,3 +1,5 @@
+import '../exceptions/exceptions.dart';
+
 enum CmdCode {
   //UpBalanceServer
   distribute(0x0002),
@@ -251,4 +253,12 @@ enum CmdCode {
 
   final int value;
   const CmdCode(this.value);
+
+  /// 从整数值获取对应的 CmdCode
+  static CmdCode fromValue(int value) {
+    return CmdCode.values.firstWhere(
+      (e) => e.value == value,
+      orElse: () => throw ArgsException('Invalid CmdCode value: $value'),
+    );
+  }
 }

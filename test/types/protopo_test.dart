@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../packages/core/constants/constants.dart';
@@ -22,6 +23,8 @@ void main() {
       ]);
 
       final header = Header.fromBytes(uint8list);
+
+      debugPrint("hedar ${header.cmd}");
 
       expect(header.length, equals(0x0095));
       expect(header.orderId, equals(0x0002));
@@ -78,7 +81,8 @@ void main() {
         'key3': 'bbb^&*',
       };
 
-      String tmp = prop.entries.map((entry) => '${entry.key}:${entry.value}').join("\n");
+      String tmp =
+          prop.entries.map((entry) => '${entry.key}:${entry.value}').join("\n");
 
       Uint8List uint8list = Uint8List.fromList(utf8.encode(tmp));
 

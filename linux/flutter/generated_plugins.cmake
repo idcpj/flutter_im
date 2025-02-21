@@ -4,8 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   file_selector_linux
-  flutter_notification_service
-  flutter_timezone
+  local_notifier
   record_linux
 )
 

@@ -10,10 +10,10 @@ class UserHook extends BaseHook {
     debugPrint('[UserHook]  初始化');
   }
 
-  void login(int code, Message data) {
+  Future<void> login(StaticCode code, Message data) {
     //错误在页面中抛出
     if (!checkCodeNotException(code)) {
-      return;
+      return Future.value();
     }
 
     debugPrint('[UserHook]  登录成功 ${data}');
@@ -92,5 +92,6 @@ class UserHook extends BaseHook {
     // GlobalRepository.set_cache(NEED_CHANGE_PWD, data.params[8]);
 
     // this.handle_role_power(getPropsKey(ROLEACEXML))
+    return Future.value();
   }
 }

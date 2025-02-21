@@ -46,4 +46,4 @@ app.*.map.json
 
 
 .fvm
-*.g.dart
+pubspec.lock

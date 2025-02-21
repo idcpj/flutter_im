@@ -57,7 +57,6 @@ class MobileApp implements AppAbstract {
     //
     _socket!.bind((data) {
       final message = Message.fromBytes(data);
-      log.debug('[app] 收到消息: cmd= ${message.header.cmd}');
       _eventBus?.emit(message.header.cmd, message);
     });
   }
@@ -97,13 +96,9 @@ class MobileApp implements AppAbstract {
 
   @override
   void listen(CmdCode name, CmdCallback callback) {
-    log.info('[app] 监听消息1: ${name}');
-    final res = _eventBus?.on(name).listen((message) {
-      log.info('[app] 收到消息: ${message.header.code}');
-      callback(message.header.code, message);
+    _eventBus?.on(name).listen((Message message) async {
+      await callback(message.header.status, message);
     });
-
-    log.info('[app] 监听消息: ${name}');
   }
 
   @override
