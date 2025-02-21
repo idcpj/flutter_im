@@ -18,6 +18,9 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # of the product and file versions while build-number is used as the build suffix.
 version: 5.8.0
 
+# 数据库版本,每次需改数据时,都需要自增一
+db_version: 1
+
 environment:
   sdk: ^3.4.0
 

@@ -1,8 +1,10 @@
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../config/config.dart';
 import '../constants/constants.dart';
 import '../domain/services/config_service.dart';
+import '../domain/services/db_service.dart';
 import '../domain/services/user_service.dart';
 import '../helpers/event.dart';
 import '../io/tcp_client.dart';
@@ -10,7 +12,7 @@ import '../platform/log/log.dart';
 import '../types/types.dart';
 
 class MobileApp implements AppAbstract {
-  AppConfig _config;
+  AppConfigAbstract? _config;
   LogAbstract? _log;
   SocketAbstract? _socket;
 
@@ -18,34 +20,64 @@ class MobileApp implements AppAbstract {
 
   UserService? _userService;
   ConfigService? _configService;
+  DbService? _dbService;
 
-  MobileApp({
-    required AppConfig config,
-  }) : _config = config {
+  MobileApp() {
+    //config
+    _config = Config().config;
+
     // 初始化日志
-    _log = LogPlatform(path: config.log.path);
+    _log = LogPlatform();
 
     // 初始化事件总线
-    _eventBus = EventBus();
+    _eventBus = EventBus(_log);
 
     // 初始化 socket
     _socket = TcpClient(
       log: _log!,
     );
-    _socket!.bind((data) {
-      final message = Message.fromBytes(data);
-      _eventBus?.emit(message.header.cmd, message);
-    });
 
     // 初始化服务
     _userService = UserService(app: this);
     _configService = ConfigService(app: this);
+    _dbService = DbService(app: this);
   }
 
-  Future<void> connect() async {
-    await _socket?.connect();
+  @override
+  Future<void> initialize() async {
+    // 配置文件初始化
+    final path = await getApplicationDocumentsDirectory();
+
+    final packageInfo = await PackageInfo.fromPlatform();
+
+    _config!.initialize(path.path, _config!.latestVersion, packageInfo.version);
+
+    _log!.initialization(config.getLogPath(), _config!.logLevel);
+
+    //
+    _socket!.bind((data) {
+      final message = Message.fromBytes(data);
+      log.debug('[app] 收到消息: cmd= ${message.header.cmd}');
+      _eventBus?.emit(message.header.cmd, message);
+    });
   }
 
+  @override
+  Future<void> connect({String? host, int? port, String? domain}) async {
+    // 第一次初始化
+    if (host != null && port != null && domain != null) {
+      _config!.setNetConfig(host, port, domain);
+    }
+
+    await _socket?.connect(host!, port!);
+  }
+
+  @override
+  afterLogin() {
+    _dbService!.initAfterLogin();
+  }
+
+  @override
   disconnect() {
     _socket?.disconnect();
   }
@@ -54,9 +86,8 @@ class MobileApp implements AppAbstract {
   EventBusAbstract get eventBus => _eventBus!;
 
   @override
-  Future<String> getVersion() async {
-    final packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version;
+  String getVersion() {
+    return _config!.getVersion();
   }
 
   @override
@@ -66,14 +97,18 @@ class MobileApp implements AppAbstract {
 
   @override
   void listen(CmdCode name, CmdCallback callback) {
-    _eventBus?.on(name).listen((message) {
+    log.info('[app] 监听消息1: ${name}');
+    final res = _eventBus?.on(name).listen((message) {
+      log.info('[app] 收到消息: ${message.header.code}');
       callback(message.header.code, message);
     });
+
+    log.info('[app] 监听消息: ${name}');
   }
 
   @override
   String saasId() {
-    throw UnimplementedError("saasId");
+    return _configService!.saasId();
   }
 
   @override
@@ -83,20 +118,26 @@ class MobileApp implements AppAbstract {
 
   @override
   String userId() {
-    throw UnimplementedError("userId");
+    return _configService!.userId();
   }
 
   @override
   String userName() {
-    throw UnimplementedError("userName");
+    return _configService!.userName();
   }
 
   @override
   UserService get userService => _userService!;
 
   @override
-  AppConfig get config => _config;
+  AppConfigAbstract get config => _config!;
 
   @override
   ConfigService get configService => _configService!;
+
+  @override
+  DbService get dbService => _dbService!;
+
+  @override
+  LogAbstract get log => _log!;
 }

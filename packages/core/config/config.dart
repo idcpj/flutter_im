@@ -1,27 +1,26 @@
-class NetConfig {
-  String host;
-  int port;
+import '../helpers/platform.dart';
+import 'configMobile.dart';
+import 'configPlatform.dart';
+import 'configWeb.dart';
+import 'config_interface.dart';
 
-  NetConfig({required this.host, required this.port});
-}
+export 'config_interface.dart';
+export 'configMobile.dart';
 
-class LogConfig {
-  String path;
+class Config {
+  static late AppConfigAbstract _config;
 
-  LogConfig({this.path = ""});
-}
+  get config => _config;
 
-class DbConfig {
-  String path;
-  String dbName;
-
-  DbConfig({required this.path, required this.dbName});
-}
-
-class AppConfig {
-  NetConfig net;
-  LogConfig log;
-  DbConfig db;
-
-  AppConfig({required this.net, required this.log, required this.db});
+  Config() {
+    if (Platform.isWeb) {
+      _config = AppConfigWeb();
+    } else if (Platform.isMobile) {
+      _config = AppConfigMobile();
+    } else if (Platform.isDesktop) {
+      _config = AppConfigPlatform();
+    } else {
+      throw Exception('Unsupported platform');
+    }
+  }
 }

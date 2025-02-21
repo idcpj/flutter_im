@@ -6,8 +6,8 @@ import 'base_hook.dart';
 
 class UserHook extends BaseHook {
   UserHook(super.app) {
-    debugPrint('[UserHook]  初始化');
     app.listen(CmdCode.login, login);
+    debugPrint('[UserHook]  初始化');
   }
 
   void login(int code, Message data) {
@@ -15,6 +15,8 @@ class UserHook extends BaseHook {
     if (!checkCodeNotException(code)) {
       return;
     }
+
+    debugPrint('[UserHook]  登录成功 ${data}');
 
     final userId = data.params[0];
     final saasid = data.params[1];

@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import '../../exceptions/initialize_exception.dart';
+import '../../exceptions/exceptions.dart';
 import 'notification_interface.dart';
 
 class NotificationDefault implements NotificationAbstract {

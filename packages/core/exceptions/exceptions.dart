@@ -5,4 +5,4 @@ export 'http_exception.dart';
 export 'not_found_type_exception.dart';
 export 'timeout_exception.dart';
 export 'code_exception.dart';
-export 'code_message_exception.dart';
+export 'initialize_exception.dart';

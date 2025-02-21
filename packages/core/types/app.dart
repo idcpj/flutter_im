@@ -1,9 +1,14 @@
-import '../config/config.dart';
+import '../config/config_interface.dart';
+import '../constants/constants.dart';
 import '../domain/services/config_service.dart';
+import '../domain/services/db_service.dart';
 import '../domain/services/user_service.dart';
 import 'types.dart';
 
 abstract class AppAbstract {
+  // 初始化
+  Future<void> initialize();
+
   // 连接服务器
   void connect();
 
@@ -26,9 +31,17 @@ abstract class AppAbstract {
 
   String saasId();
 
-  Future<String> getVersion();
+  String getVersion();
+
+  afterLogin();
+
+  DbService get dbService;
+
+  LogAbstract get log;
 
   UserService get userService;
-  AppConfig get config;
+
+  AppConfigAbstract get config;
+
   ConfigService get configService;
 }

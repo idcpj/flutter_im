@@ -3,10 +3,37 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../packages/core/constants/constants.dart';
 import '../../packages/core/types/protopo.dart';
 import '../../packages/core/constants/enum.dart';
 
 void main() {
+  group('解析测试', () {
+    test('Param  parse test', () {
+      Uint8List uint8list = Uint8List.fromList([
+        0x00, 0x00, 0x00, 0x95, // length: 0x95
+        0x00, 0x00, 0x00, 0x02, // orderId: 0x02
+        0x01, // randomKey1
+        0x02, // randomKey2
+        0x00, 0x08, // cmd: CmdCode.login (0x0008)
+        0x00, // status: StaticCode.normal (0x00)
+        0x00, // encry: EncryptCode.none (0x00)
+        0x00, 0x00 // reserved: 0x0000
+      ]);
+
+      final header = Header.fromBytes(uint8list);
+
+      expect(header.length, equals(0x0095));
+      expect(header.orderId, equals(0x0002));
+      expect(header.randomKey1, equals(0x01));
+      expect(header.randomKey2, equals(0x02));
+      expect(header.cmd, equals(CmdCode.login));
+      expect(header.status, equals(StaticCode.normal));
+      expect(header.encry, equals(EncryptCode.none));
+      expect(header.reserved, equals(0x0000));
+    });
+  });
+
   group("base test", () {
     test("Param  parse test", () {
       List<String> strList = ['aa', '11', '陈鹏杰', '_!'];
@@ -63,7 +90,7 @@ void main() {
 
   group('ProtoHeader Tests', () {
     test('默认构造函数测试', () {
-      final header = ProtoHeader();
+      final header = Header();
       expect(header.length, equals(0x0010));
       expect(header.orderId, equals(0x0001));
       expect(header.cmd, equals(0x0010));
@@ -72,18 +99,18 @@ void main() {
     });
 
     test('ProtoHeader 序列化和反序列化测试', () {
-      final header = ProtoHeader(
+      final header = Header(
         length: 100,
         orderId: 1234,
         randomKey1: 0x11,
         randomKey2: 0x22,
-        cmd: 0x0020,
+        cmd: CmdCode.login,
         status: StaticCode.error,
         encry: EncryptCode.aes256,
       );
 
       final bytes = header.toBytes();
-      final decoded = ProtoHeader.fromBytes(bytes);
+      final decoded = Header.fromBytes(bytes);
 
       expect(decoded.length, equals(100));
       expect(decoded.orderId, equals(1234));
@@ -98,7 +125,7 @@ void main() {
   group('Message Tests', () {
     test('完整消息测试', () {
       final message = Message(
-        header: ProtoHeader(),
+        header: Header(),
         params: ['param1', 'param2', 'param3'],
         props: {'prop1': 'value1', 'prop2': 'value2'},
         body: 'Hello World',
@@ -114,7 +141,7 @@ void main() {
 
     test('只有参数的消息测试', () {
       final message = Message(
-        header: ProtoHeader(),
+        header: Header(),
         params: ['param1', 'param2'],
       );
 
@@ -128,7 +155,7 @@ void main() {
 
     test('只有属性的消息测试', () {
       final message = Message(
-        header: ProtoHeader(),
+        header: Header(),
         props: {'key1': 'value1'},
       );
 
@@ -142,7 +169,7 @@ void main() {
 
     test('只有消息体的消息测试', () {
       final message = Message(
-        header: ProtoHeader(),
+        header: Header(),
         body: 'test body',
       );
 
@@ -156,7 +183,7 @@ void main() {
 
     test('空消息测试', () {
       final message = Message(
-        header: ProtoHeader(),
+        header: Header(),
       );
 
       final bytes = message.toBytes();
@@ -169,7 +196,7 @@ void main() {
 
     test('特殊字符测试', () {
       final message = Message(
-        header: ProtoHeader(),
+        header: Header(),
         params: ['特殊字符!@#', '中文测试'],
         props: {'特殊键': '特殊值!@#'},
         body: '包含换行\n和特殊字符!@#\$%^',
@@ -186,7 +213,7 @@ void main() {
     test('长消息测试', () {
       final longString = 'a' * 1000;
       final message = Message(
-        header: ProtoHeader(),
+        header: Header(),
         params: [longString],
         props: {'long': longString},
         body: longString,

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import '../../constants/constants.dart';
 import '../../types/types.dart';
 import '../dao/repository/cache_repository.dart';
@@ -33,7 +31,7 @@ class ConfigService extends BaseService {
     }
     var serverMapInfo = CacheRepository.getCache<List<ServerMapInfo>?>(LoginResKey.servermapinfo.value);
     if (serverMapInfo != null && serverMapInfo.isNotEmpty) {
-      var hostname = app.config.net.host;
+      var hostname = app.config.host;
       var webServer = serverMapInfo.firstWhere((item) {
         return item.loginServer == hostname;
       });

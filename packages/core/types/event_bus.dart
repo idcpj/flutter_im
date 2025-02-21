@@ -1,3 +1,4 @@
+import '../constants/constants.dart';
 import 'types.dart';
 
 abstract class EventBusAbstract {

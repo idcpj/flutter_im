@@ -1,93 +1,74 @@
-import 'package:flutter/foundation.dart';
-import 'package:path/path.dart';
-import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:sqflite/sqflite.dart' as sqflite;
-import 'dart:io';
+import 'package:sqflite/sqlite_api.dart';
 
-class DatabaseHelper {
-  static final DatabaseHelper instance = DatabaseHelper._init();
-  static Database? _database;
+import '../../platform/database/db_manage.dart';
+import '../../types/types.dart';
+import '../dao/sql/sql.dart';
 
-  DatabaseHelper._init();
+/// 对数据库进行初始化等处理
+class DbService {
+  AppAbstract app;
+  LogAbstract log;
+  final DbManage _dbManage = DbManage();
 
-  static Future<void> initializeDatabase() async {
-    if (_database != null) return;
+  DbService({required this.app}) : log = app.log;
 
+  //  需要登录客户端连接成功后再触发
+  Future<void> initAfterLogin() async {
+    final ops = OpenDatabaseOptions(
+      version: app.config.latestVersion,
+      onCreate: (db, version) => _createDB(db, version),
+      onUpgrade: (db, oldVersion, newVersion) => _upgradeDB(db, oldVersion, newVersion),
+      // onDowngrade: onDatabaseDowngradeDelete, // 如果需要降级，则删除数据库重新创建
+    );
 
-    DatabaseFactory databaseFactory;
+    await _dbManage.initialize(
+      app.config.getDbPath(),
+      app.config.getDbName(),
+      ops,
+    );
 
-    String dbPath = 'im_database.db';
-    try {
-      if (kIsWeb) {
-        // Web平台初始化
-        databaseFactory = databaseFactoryFfiWeb;
-      } else if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
-        // 其他平台初始化
-        sqfliteFfiInit();
-        databaseFactory = databaseFactoryFfi;
-      } else if (Platform.isAndroid || Platform.isIOS) {
-        databaseFactory = sqflite.databaseFactory;
-      } else {
-        throw UnsupportedError('不支持的平台: ${Platform.operatingSystem}');
+    app.log.info('[DbService] 初始化');
+  }
+
+  Future<void> _createDB(Database db, int version) async {
+    await db.execute(sql_v1);
+    log.info('[DbService] 数据库表创建成功');
+  }
+
+  Future<void> _upgradeDB(Database db, int oldVersion, int newVersion) async {
+    log.info('[DbService] 开始数据库升级: $oldVersion -> $newVersion');
+
+    // 使用事务来确保升级的原子性
+    await db.transaction((txn) async {
+      // 版本 1 到 2 的迁移
+      if (oldVersion == 1) {
+        // 为 people 表添加新列
+        // await txn.execute('ALTER TABLE people ADD COLUMN email TEXT');
+        // await txn.execute('ALTER TABLE people ADD COLUMN phone TEXT');
+
+        // 创建新表
+        // await txn.execute('''
+        //   CREATE TABLE IF NOT EXISTS user_logs (
+        //     id INTEGER PRIMARY KEY AUTOINCREMENT,
+        //     user_id INTEGER NOT NULL,
+        //     action TEXT NOT NULL,
+        //     created_at INTEGER NOT NULL DEFAULT (strftime('%s', 'now')),
+        //     FOREIGN KEY (user_id) REFERENCES people (id) ON DELETE CASCADE
+        //   )
+        // ''');
       }
 
-      dbPath = join(await databaseFactory.getDatabasesPath(), dbPath);
-      debugPrint('数据库路径: $dbPath');
+      // 版本 2 到 3 的迁移
+      if (oldVersion <= 2 && newVersion >= 3) {
+        // 添加未来版本的迁移代码
+      }
+    });
 
-      _database = await databaseFactory.openDatabase(
-        dbPath,
-        options: OpenDatabaseOptions(
-          version: 1,
-          onCreate: (db, version) => _createDB(db, version),
-        ),
-      );
-    } catch (e) {
-      print('数据库初始化失败: $e');
-      rethrow;
-    }
+    log.info('[DbService] 数据库升级完成');
   }
 
-  static Future<void> _createDB(Database db, int version) async {
-    await db.execute('''
-      CREATE TABLE IF NOT EXISTS people (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        age INTEGER NOT NULL
-      )
-    ''');
-    print('数据库表创建成功');
-  }
-
-  Future<int> createPerson(String name, int age) async {
-    _checkInitialized();
-
-    final data = {'name': name, 'age': age};
-    final id = await _database!.insert('people', data);
-    print('创建人员成功 ID: $id');
-    return id;
-  }
-
-  Future<List<Map<String, dynamic>>> getAllPeople() async {
-    _checkInitialized();
-
-    final result = await _database!.query('people');
-    print('获取到 ${result.length} 条人员数据');
-    return result;
-  }
-
-  void _checkInitialized() {
-    if (_database == null) {
-      throw Exception('数据库未初始化，请先调用 initializeDatabase()');
-    }
-  }
-
-  // 新增关闭数据库方法
   Future<void> close() async {
-    if (_database != null) {
-      await _database!.close();
-      _database = null;
-      print('数据库已关闭');
-    }
+    log.info('[DbService] 关闭数据库');
+    await _dbManage.close();
   }
 }

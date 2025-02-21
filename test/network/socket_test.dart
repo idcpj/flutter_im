@@ -118,19 +118,3 @@ void main() {
     });
   });
 }
-
-//// TCP使用示例
-// final tcpSocket = SocketTCP();
-// await tcpSocket.connect('127.0.0.1', 8080);
-// tcpSocket.onMessage.listen((message) {
-//   print('收到TCP消息: $message');
-// });
-// await tcpSocket.send('Hello TCP');
-
-// // WebSocket使用示例
-// final wsSocket = SocketWebSocket();
-// await wsSocket.connect('localhost', 8080);
-// wsSocket.onMessage.listen((message) {
-//   print('收到WebSocket消息: $message');
-// });
-// await wsSocket.send('Hello WebSocket');

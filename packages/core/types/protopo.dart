@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import '../constants/constants.dart';
-import 'types.dart';
 
 /// 协议头定义 - 固定16字节
-class ProtoHeader {
+class Header {
   /// 数据包长度 (4字节) - 整个数据包的长度(包含头部)
   int length; // uint32
 
@@ -37,12 +36,12 @@ class ProtoHeader {
   /// 预留字段 (2字节)
   int reserved; // uint16
 
-  ProtoHeader({
-    this.length = 0x0010,
-    this.orderId = 0x0001,
+  Header({
+    this.length = 0,
+    this.orderId = 0,
     this.randomKey1 = 0x10,
     this.randomKey2 = 0x01,
-    this.cmd = 0x0010,
+    this.cmd = CmdCode.login,
     this.status = StaticCode.normal,
     this.encry = EncryptCode.none,
     this.reserved = 0x0000,
@@ -64,7 +63,7 @@ class ProtoHeader {
     byteData.setUint8(9, randomKey2);
 
     // 写入命令 (2字节)
-    byteData.setUint16(10, cmd);
+    byteData.setUint16(10, cmd.value);
     // 写入状态码 (1字节)
     byteData.setUint8(12, status.index);
 
@@ -78,22 +77,20 @@ class ProtoHeader {
   }
 
   /// 从字节数组构造协议头
-  static ProtoHeader fromBytes(Uint8List bytes) {
-    if (bytes.length < 16) {
-      throw Exception('Invalid header length');
-    }
+  factory Header.fromBytes(Uint8List bytes) {
+    ByteData byteData = ByteData.view(bytes.buffer);
 
-    final byteData = ByteData.view(bytes.buffer);
+    final res = byteData.getUint16(10, Endian.big);
 
-    return ProtoHeader(
-      length: byteData.getUint32(0),
-      orderId: byteData.getUint32(4),
-      randomKey1: byteData.getUint8(8),
-      randomKey2: byteData.getUint8(9),
-      cmd: byteData.getUint16(10),
-      status: StaticCode.values[byteData.getUint8(12)],
-      encry: EncryptCode.values[byteData.getUint8(13)],
-      reserved: byteData.getUint16(14),
+    return Header(
+      length: byteData.getUint32(0, Endian.big), // 读取前4字节作为length
+      orderId: byteData.getUint32(4, Endian.big), // 读取接下来4字节作为orderId
+      randomKey1: bytes[8], // 第9字节作为randomKey1
+      randomKey2: bytes[9], // 第10字节作为randomKey2
+      cmd: CmdCode.values[byteData.getUint16(10, Endian.big)], // 读取接下来2字节作为cmd
+      status: StaticCode.values[bytes[12]], // 第13字节作为status
+      encry: EncryptCode.values[bytes[13]], // 第14字节作为encry
+      reserved: byteData.getUint16(14, Endian.big), // 最后2字节作为reserved
     );
   }
 }
@@ -101,7 +98,7 @@ class ProtoHeader {
 /// 协议消息体定义
 class Message {
   /// 协议头
-  final ProtoHeader _header;
+  final Header _header;
 
   /// 参数数组 - 可选
   List<String>? _params;
@@ -113,7 +110,7 @@ class Message {
   String? body;
 
   Message({
-    required ProtoHeader header,
+    required Header header,
     List<String>? params,
     Map<String, String>? props,
     this.body,
@@ -164,7 +161,7 @@ class Message {
     }
 
     // 解析header
-    final header = ProtoHeader.fromBytes(bytes);
+    final header = Header.fromBytes(bytes);
 
     // 解析剩余数据
     var content = utf8.decode(bytes.sublist(16));

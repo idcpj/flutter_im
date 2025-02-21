@@ -20,7 +20,7 @@ import '../../core/platform/geolocator/geolocator.dart';
 class FeaturePage extends StatelessWidget {
   final DatabaseHelper dbHelper = DatabaseHelper.instance;
   final _notificationHelper = NotificationPlatform.instance;
-  final _logHelper = LogPlatform(path: 'log');
+  final _logHelper = LogPlatform();
   final _geolocatorHelper = GeolocatorPlatform.instance;
 
   FeaturePage({super.key}) {

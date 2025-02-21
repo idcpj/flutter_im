@@ -9,7 +9,6 @@ class NotificationDefault implements NotificationAbstract {
     initialize();
   }
 
-  @override
   Future<void> initialize() async {
     if (!html.Notification.supported) {
       throw Exception('[notification] 该浏览器不支持通知功能');

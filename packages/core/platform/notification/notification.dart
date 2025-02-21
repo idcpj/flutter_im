@@ -6,7 +6,7 @@ import 'notification_interface.dart';
 import "../../helpers/platform.dart";
 
 class NotificationPlatform {
-  late NotificationAbstract _platform;
+  static late NotificationAbstract _platform;
 
 // 私有构造函数
   static final NotificationPlatform instance = NotificationPlatform._();

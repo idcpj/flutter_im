@@ -1,14 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../config/config.dart';
+import '../config/config_interface.dart';
 import '../types/types.dart';
 
 class TcpClient extends SocketAbstract {
   Socket? _socket;
   TcpCallback? _handle;
   LogAbstract _log;
-  NetConfig? _conf;
 
   // 连接状态
   @override
@@ -18,17 +17,11 @@ class TcpClient extends SocketAbstract {
 
   // 连接服务器
   @override
-  Future<void> connect() async {
-    if (_conf!.host.isEmpty) {
-      throw ArgumentError('Host is null or empty');
-    }
-    if (_conf!.port == 0) {
-      throw ArgumentError('Port is less than 0');
-    }
-    _log.info('Connecting to: ${_conf!.host}:${_conf!.port}');
+  Future<void> connect(String host, int port) async {
+    _log.info('Connecting to: $host:$port');
 
-    _socket = await Socket.connect(_conf!.host, _conf!.port);
-    _log.info('Connectend to: ${_conf!.host}:${_conf!.port}');
+    _socket = await Socket.connect(host, port);
+    _log.info('Connectend to: $host:$port');
 
     // 监听数据
     _socket!.listen(
@@ -58,12 +51,12 @@ class TcpClient extends SocketAbstract {
       _log.error('Not connected to server');
       return;
     }
-    _log.debug('Sending data: ${data.length} bytes');
+    // _log.debug('Sending data: ${data.length} bytes');
 
     // 将 Uint8List 转换为字节流并发送
     _socket!.add(data);
 
-    _log.debug('Sent data: ${data.length} bytes');
+    // _log.debug('Sent data: ${data.length} bytes');
   }
 
   // 断开连接
@@ -71,10 +64,5 @@ class TcpClient extends SocketAbstract {
   void disconnect() {
     _socket?.destroy();
     _socket = null;
-  }
-
-  @override
-  void setConfig(NetConfig conf) {
-    _conf = conf;
   }
 }

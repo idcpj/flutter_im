@@ -69,6 +69,7 @@ enum PlatformType {
   ios(4), // iOS
   android(5), // Android
   web(6); // Web
+  // harmony(7); // harmony
 
   final int value;
   const PlatformType(this.value);

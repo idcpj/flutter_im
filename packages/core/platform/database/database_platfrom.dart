@@ -6,6 +6,6 @@ class DbPlatfrom extends DbAbstract {
   DbPlatfrom() {
     // 其他平台初始化
     sqfliteFfiInit();
-    databaseFactory = databaseFactoryFfi;
+    dbFactory = databaseFactoryFfi;
   }
 }

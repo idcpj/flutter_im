@@ -5,3 +5,4 @@ export 'log.dart';
 export 'socket.dart';
 export 'define.dart';
 export 'xml.dart';
+export 'orm.dart';

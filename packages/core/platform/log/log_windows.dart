@@ -1,31 +1,25 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
-import '../../exceptions/initialize_exception.dart';
+import '../../exceptions/exceptions.dart';
 import '../../types/types.dart';
 
 class LogWindows implements LogAbstract {
   final Logger _logger = Logger('WindowsLogger');
   late final File _logFile;
-  bool _initialized = false;
 
-  LogWindows({String logPath = ''}) {
-    _initLogger(logPath);
+  @override
+  Future<void> initialization(String customLogPath, LogLevel level) async {
+    if (level.name == "debug") {
+      _logger.level = Level.FINE;
+    } else if (level.name == "info") {
+      _logger.level = Level.INFO;
+    } else {
+      _logger.level = Level.ALL;
+    }
 
-    debugPrint('[log] Windows日志初始化成功');
-  }
-
-  Future<void> _initLogger(String customLogPath) async {
-    if (_initialized) return;
-
-    // 设置日志级别
-    Logger.root.level = Level.ALL;
-
-    final appDir = await getApplicationDocumentsDirectory();
-
-    final logPath = path.join(appDir.path, customLogPath, 'log_${DateTime.now().toIso8601String().replaceAll(':', '-').replaceAll('.', '_')}.log');
+    final logPath = path.join(customLogPath, 'im_log_${DateTime.now().toIso8601String().replaceAll(':', '-').replaceAll('.', '_')}.log');
 
     debugPrint('[log] 日志路径: $logPath');
 
@@ -48,7 +42,7 @@ class LogWindows implements LogAbstract {
     }
 
     // 配置日志处理
-    Logger.root.onRecord.listen((LogRecord record) {
+    _logger.onRecord.listen((LogRecord record) {
       final message = '${record.time}: ${record.level.name}: ${record.message}';
 
       // 控制台输出
@@ -70,8 +64,6 @@ class LogWindows implements LogAbstract {
         _logFile.writeAsStringSync('$stackMsg\n', mode: FileMode.append);
       }
     });
-
-    _initialized = true;
   }
 
   @override

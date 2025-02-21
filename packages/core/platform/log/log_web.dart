@@ -3,8 +3,8 @@ import 'package:logging/logging.dart';
 
 import '../../types/types.dart';
 
-class LogDefault implements LogAbstract {
-  final Logger _logger = Logger('DefaultLogger');
+class LogWeb implements LogAbstract {
+  final Logger _logger = Logger('WebLogger');
 
   @override
   Future<void> initialization(String customLogPath, LogLevel level) async {

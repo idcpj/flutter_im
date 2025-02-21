@@ -11,15 +11,14 @@ class UserService extends BaseService {
     userHook = UserHook(app);
   }
 
-  Future<void> login(String loginName, String password, String saasName,
-      EnTypeType enType) async {
+  Future<void> login(String loginName, String password, String saasName, EnTypeType enType) async {
     final msg = buildMessage(CmdCode.login);
 
     // todo 需要根据平台来判断
     final platform = PlatformCode.getCode(PlatformType.android);
     final updatePlatform = PlatformCode.getCode(PlatformType.android);
     const nLoginFlag = '0';
-    final clientVern = await app.getVersion();
+    final clientVern = app.getVersion();
 
     const opType = OpType.loginName;
 

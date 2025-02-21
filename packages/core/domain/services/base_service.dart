@@ -30,7 +30,7 @@ abstract class BaseService {
 
   Message buildMessage(CmdCode cmd) {
     return Message(
-      header: ProtoHeader(
+      header: Header(
         cmd: cmd,
         orderId: order,
         encry: encry,
