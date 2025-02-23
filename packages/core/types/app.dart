@@ -1,3 +1,4 @@
+import '../../client_example/pages/feature_page.dart';
 import '../config/config_interface.dart';
 import '../constants/constants.dart';
 import '../domain/services/config_service.dart';
@@ -33,7 +34,7 @@ abstract class AppAbstract {
 
   String getVersion();
 
-  afterLogin();
+  Future<void> afterLogin(Message data);
 
   DbService get dbService;
 

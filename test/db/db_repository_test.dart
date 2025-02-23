@@ -5,16 +5,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite/sqlite_api.dart';
 
 import '../../packages/core/domain/dao/entity/entity.dart';
-import '../../packages/core/domain/dao/repository/base_repository.dart';
+import '../../packages/core/domain/dao/repository/repository.dart';
 import '../../packages/core/platform/database/db_manage.dart';
-
-class ConfigRepository extends BaseRepository {
-  ConfigRepository();
-
-  // Future<void> insertConfig(Config config) async {
-  //   await insert(config);
-  // }
-}
 
 void main() {
   group('DbRepository', () {
@@ -60,34 +52,59 @@ CREATE TABLE IF NOT EXISTS hs_config (
       // 执行初始化
       await dbManager.initialize(dbPath, dbName, options);
 
-      final configRepository = ConfigRepository();
-
       final config = Config(
         configId: 1,
         configKey: 'test',
         configValue: 'test',
       );
-      await configRepository.insert(config);
+
+      await ConfigRepository().insert(config);
 
       config.configValue = 'test2';
-      await configRepository.update(config);
+      await ConfigRepository().update(config);
 
       debugPrint("config ${config.toMap()}");
 
-      final config2 = await configRepository.findById(Config(configId: 1));
+      final config2 = await ConfigRepository().findById(Config(configId: 1));
       expect(config2, isNotNull);
       expect(config2!.configId, 1);
       expect(config2.configKey, 'test');
       expect(config2.configValue, 'test2');
 
-      final config3 = await configRepository.findAll(config);
+      final config3 = await ConfigRepository().findAll(config);
       expect(config3, isNotNull);
       expect(config3.length, 1);
       expect(config3[0].configId, 1);
       expect(config3[0].configKey, 'test');
       expect(config3[0].configValue, 'test2');
 
-      await configRepository.delete(config);
+      await ConfigRepository().delete(config);
+
+      // 测试 addOrUpdate 方法
+      final configForAddOrUpdate = Config(
+        configId: 2,
+        configKey: 'test_add_or_update',
+        configValue: 'initial_value',
+      );
+
+      // 测试添加新记录
+      await ConfigRepository().addOrUpdate(configForAddOrUpdate);
+      var result = await ConfigRepository().findById(Config(configId: 2));
+      expect(result, isNotNull);
+      expect(result!.configValue, 'initial_value');
+
+      // 测试更新现有记录
+      final configForAddOrUpdate2 = Config(
+        configId: 2,
+        configKey: '',
+        configValue: 'updated_value',
+      );
+
+      await ConfigRepository().addOrUpdate(configForAddOrUpdate2);
+      result = await ConfigRepository().findById(Config(configId: 2));
+      expect(result, isNotNull);
+      expect(result!.configKey, '');
+      expect(result!.configValue, 'updated_value');
     });
   });
 }

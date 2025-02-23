@@ -6,7 +6,8 @@ class User implements Table {
   String get tableName => 'hs_user';
 
   @override
-  Field get primaryKey => const Field(name: 'user_id', type: FieldType.string, isPrimary: true);
+  Field get primaryKey =>
+      const Field(name: 'user_id', type: FieldType.string, isPrimary: true);
 
   final String userId;
   String userLogin;

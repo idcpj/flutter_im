@@ -33,9 +33,7 @@ class MobileApp implements AppAbstract {
     _eventBus = EventBus(_log);
 
     // 初始化 socket
-    _socket = TcpClient(
-      log: _log!,
-    );
+    _socket = TcpClient(log: _log!);
 
     // 初始化服务
     _userService = UserService(app: this);
@@ -72,8 +70,14 @@ class MobileApp implements AppAbstract {
   }
 
   @override
-  afterLogin() {
-    _dbService!.initAfterLogin();
+  Future<void> afterLogin(Message data) async {
+    final userId = data.params[0];
+    final saasid = data.params[1];
+
+    _config!.setSaasId(saasid);
+    _config!.setUserId(userId);
+
+    await _dbService!.initAfterLogin();
   }
 
   @override

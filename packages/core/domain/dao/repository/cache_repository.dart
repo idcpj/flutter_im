@@ -24,21 +24,28 @@ class CacheRepository {
 
   // 客户端系统配置
   static bool isCFlag(ClientFlag n) {
-    return ((getCache<ClientFlag>(LoginResKey.cflag.value).value & n.value) == n.value);
+    return ((getCache<ClientFlag>(LoginResKey.cflag.value).value & n.value) ==
+        n.value);
   }
 
   // 查看他人信息权限
   static bool preViewPower(ProfileViewType power) {
-    return ((getCache<RolePower>(LoginResKey.roleacexml.value).profileView & power.value) == power.value);
+    return ((getCache<RolePower>(LoginResKey.roleacexml.value).profileView &
+            power.value) ==
+        power.value);
   }
 
   // 编辑他人信息权限
   static bool profileEditPower(ProfileEditType power) {
-    return ((getCache<RolePower>(LoginResKey.roleacexml.value).profileEdit & power.value) == power.value);
+    return ((getCache<RolePower>(LoginResKey.roleacexml.value).profileEdit &
+            power.value) ==
+        power.value);
   }
 
   // 消息权限
   static bool msgAce(MsgAceType power) {
-    return ((getCache<RolePower>(LoginResKey.roleacexml.value).msgAce & power.value) == power.value);
+    return ((getCache<RolePower>(LoginResKey.roleacexml.value).msgAce &
+            power.value) ==
+        power.value);
   }
 }
