@@ -22,7 +22,7 @@ class DbManage {
 
   Future<void> initialize(String path, String dbName, OpenDatabaseOptions opts) async {
     // if (kDebugMode) {
-    await Sqflite.devSetDebugModeOn(true);
+    // await Sqflite.devSetDebugModeOn(true);
     // }
 
     if (Platform.isWeb) {
