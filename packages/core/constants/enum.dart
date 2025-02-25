@@ -1,4 +1,4 @@
-import '../exceptions/exceptions.dart';
+part of 'constants.dart';
 
 enum StaticCode {
   normal, //  0-正常

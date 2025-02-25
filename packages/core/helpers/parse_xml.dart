@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:xml/xml.dart';
 
 import '../constants/constants.dart';
-import '../types/xml.dart';
+import '../types/types.dart';
 
 Map<String, String> parseUserInfoXml(String xml) {
   final document = XmlDocument.parse(xml);

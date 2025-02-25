@@ -93,10 +93,7 @@ void main() {
 
     test('消息顺序执行测试', () async {
       final cmdCode = CmdCode.login;
-      final messages = List.generate(
-          3,
-          (index) =>
-              Message(header: Header(cmd: cmdCode), body: 'message-$index'));
+      final messages = List.generate(3, (index) => Message(header: Header(cmd: cmdCode), body: 'message-$index'));
       final receivedMessages = <String>[];
 
       // 订阅消息
@@ -106,12 +103,9 @@ void main() {
 
       // 模拟不同延迟发送消息
       await Future.wait([
-        Future.delayed(const Duration(milliseconds: 300))
-            .then((_) => eventBus.emit(cmdCode, messages[0])),
-        Future.delayed(const Duration(milliseconds: 200))
-            .then((_) => eventBus.emit(cmdCode, messages[1])),
-        Future.delayed(const Duration(milliseconds: 100))
-            .then((_) => eventBus.emit(cmdCode, messages[2])),
+        Future.delayed(const Duration(milliseconds: 300)).then((_) => eventBus.emit(cmdCode, messages[0])),
+        Future.delayed(const Duration(milliseconds: 200)).then((_) => eventBus.emit(cmdCode, messages[1])),
+        Future.delayed(const Duration(milliseconds: 100)).then((_) => eventBus.emit(cmdCode, messages[2])),
       ]);
 
       // 等待所有消息处理完成
@@ -123,8 +117,7 @@ void main() {
 
     test('多个异步监听器测试', () async {
       final cmdCode = CmdCode.login;
-      final message =
-          Message(header: Header(cmd: cmdCode), body: 'test-message');
+      final message = Message(header: Header(cmd: cmdCode), body: 'test-message');
       final receivedOrder = <String>[];
 
       // 添加三个不同延迟的监听器

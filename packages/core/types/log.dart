@@ -1,3 +1,5 @@
+part of 'types.dart';
+
 abstract class LogAbstract {
   Future<void> initialization(String customLogPath, LogLevel level);
 

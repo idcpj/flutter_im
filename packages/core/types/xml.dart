@@ -1,3 +1,5 @@
+part of 'types.dart';
+
 // 角色管理 类型
 // 角色管理类型
 class RolePower {

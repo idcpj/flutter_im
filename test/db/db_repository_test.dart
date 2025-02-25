@@ -6,6 +6,7 @@ import 'package:sqflite/sqlite_api.dart';
 
 import '../../packages/core/domain/dao/entity/entity.dart';
 import '../../packages/core/domain/dao/repository/repository.dart';
+import '../../packages/core/domain/dao/sql/sql.dart';
 import '../../packages/core/platform/database/db_manage.dart';
 
 void main() {
@@ -39,13 +40,7 @@ void main() {
           debugPrint('onCreate $version');
 
           // 创建测试表
-          await db.execute("""
-CREATE TABLE IF NOT EXISTS hs_config (
-  config_id INTEGER PRIMARY KEY ,
-  config_key TEXT DEFAULT '',
-  config_value TEXT DEFAULT '',
-  config_type TEXT DEFAULT ''
-)          """);
+          await db.execute(sql_v1);
         },
       );
 

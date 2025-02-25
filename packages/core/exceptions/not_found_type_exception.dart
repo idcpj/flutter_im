@@ -1,4 +1,4 @@
-import 'sdk_exception.dart';
+part of 'exceptions.dart';
 
 class NotFoundTypeException extends SdkException {
   NotFoundTypeException(super.message);

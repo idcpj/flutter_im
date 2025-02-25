@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 
 import '../../constants/constants.dart';
+import '../../helpers/parse_xml.dart';
 import '../../helpers/time.dart';
 import '../../types/types.dart';
 import '../dao/entity/entity.dart';
-import '../dao/repository/cache_repository.dart';
-import '../dao/repository/user_repository.dart';
+import '../dao/repository/repository.dart';
 import 'base_hook.dart';
 
 class UserHook extends BaseHook {
@@ -14,28 +14,21 @@ class UserHook extends BaseHook {
     debugPrint('[UserHook]  初始化');
   }
 
-  Future<void> login(StaticCode code, Message data) {
+  Future<void> login(StaticCode code, Message data) async {
     //错误在页面中抛出
     if (!checkCodeNotException(code)) {
       return Future.value();
     }
-    // 初始化
-    app.afterLogin(data);
+    // 登录后进行初始化
+    await app.afterLogin(data);
 
     debugPrint('[UserHook]  登录成功 $data');
 
     final userId = data.params[0];
     final saasid = data.params[1];
 
-    // 连接数据库
-
-    //  登录成功后触发心跳
-    // this.client.SystemService().cmd_heart();
-
     String getPropsKey(LoginResKey key) {
-      return data.props[key.value] != null
-          ? Uri.decodeComponent(data.props[key.value]!)
-          : "";
+      return data.props[key.value] != null ? Uri.decodeComponent(data.props[key.value]!) : "";
     }
 
     const List<LoginResKey> saveKeys = [
@@ -74,9 +67,6 @@ class UserHook extends BaseHook {
       CacheRepository.setCache(item.value, val);
     });
 
-    CacheRepository.setCache(LoginResKey.stime.value,
-        timeFormat(DateTime.now(), format: 'yyyy-MM-dd HH:mm:ss'));
-
     // 添加人员
     final user = User(
       userId: userId,
@@ -90,15 +80,22 @@ class UserHook extends BaseHook {
 
     UserRepository().addOrUpdate(user);
 
-    // GlobalRepository.set_cache(USER_ID, user.user_id);
-    // GlobalRepository.set_cache(SSID, user.user_ssid);
-    // GlobalRepository.set_cache(USER_LOGIN, user.user_login);
-    // GlobalRepository.set_cache(USER_NAME, user.user_name);
+    CacheRepository.setCache(LoginResKey.stime.value, timeFormat(DateTime.now(), format: 'yyyy-MM-dd HH:mm:ss'));
 
-    // GlobalRepository.set_cache(NEED_CHANGE_PWD, data.params[8]);
+    CacheRepository.setCache(LoginResKey.userId.value, user.userId);
+    CacheRepository.setCache(LoginResKey.ssid.value, user.userSsid);
+    CacheRepository.setCache(LoginResKey.userLogin.value, user.userLogin);
+    CacheRepository.setCache(LoginResKey.userName.value, user.userName);
 
-    // this.handle_role_power(getPropsKey(ROLEACEXML))
+    CacheRepository.setCache(LoginResKey.needChangePwd.value, data.params[8]);
+
+    handleRolePower(getPropsKey(LoginResKey.roleacexml));
 
     return Future.value();
+  }
+
+  void handleRolePower(String roleXml) {
+    final rolePower = parseRoleXml(roleXml);
+    CacheRepository.setCache(LoginResKey.roleacexml.value, rolePower);
   }
 }

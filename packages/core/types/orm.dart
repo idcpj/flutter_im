@@ -1,3 +1,5 @@
+part of 'types.dart';
+
 enum FieldType {
   int,
   bigint,

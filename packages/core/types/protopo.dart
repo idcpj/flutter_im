@@ -1,7 +1,4 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
-import '../constants/constants.dart';
+part of 'types.dart';
 
 /// 协议头定义 - 固定16字节
 class Header {
@@ -139,23 +136,13 @@ class Message {
     }
 
     // 合并所有字节
-    final result = Uint8List(headerBytes.length +
-        paramsBytes.length +
-        propsBytes.length +
-        bodyBytes.length +
-        endBytes.length);
+    final result = Uint8List(headerBytes.length + paramsBytes.length + propsBytes.length + bodyBytes.length + endBytes.length);
 
     result.setAll(0, headerBytes);
     result.setAll(headerBytes.length, paramsBytes);
     result.setAll(headerBytes.length + paramsBytes.length, propsBytes);
-    result.setAll(
-        headerBytes.length + paramsBytes.length + propsBytes.length, bodyBytes);
-    result.setAll(
-        headerBytes.length +
-            paramsBytes.length +
-            propsBytes.length +
-            bodyBytes.length,
-        endBytes);
+    result.setAll(headerBytes.length + paramsBytes.length + propsBytes.length, bodyBytes);
+    result.setAll(headerBytes.length + paramsBytes.length + propsBytes.length + bodyBytes.length, endBytes);
 
     // 更新包长度
     final byteData = ByteData.view(result.buffer);
@@ -184,9 +171,7 @@ class Message {
     int currentLine = 0;
 
     // 解析第一行作为params (如果不为空且不包含冒号)
-    if (lines.isNotEmpty &&
-        lines[0].trim().isNotEmpty &&
-        !lines[0].contains(':')) {
+    if (lines.isNotEmpty && lines[0].trim().isNotEmpty && !lines[0].contains(':')) {
       params = lines[0].trim().split(' ');
     }
     currentLine++;
@@ -244,9 +229,7 @@ class Message {
       return Uint8List(0);
     }
 
-    return Uint8List.fromList(utf8.encode(_props!.entries
-        .map((entry) => '${entry.key}:${entry.value}')
-        .join("\n")));
+    return Uint8List.fromList(utf8.encode(_props!.entries.map((entry) => '${entry.key}:${entry.value}').join("\n")));
   }
 
   /// 编码body为字节数组

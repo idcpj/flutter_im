@@ -1,6 +1,4 @@
-import 'dart:typed_data';
-
-import 'types.dart';
+part of 'types.dart';
 
 abstract class SocketAbstract {
   // 连接状态

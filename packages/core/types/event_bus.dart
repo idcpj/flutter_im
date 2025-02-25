@@ -1,5 +1,4 @@
-import '../constants/constants.dart';
-import 'types.dart';
+part of 'types.dart';
 
 abstract class EventBusAbstract {
   Stream<Message> on(CmdCode cmdCode);

@@ -1,3 +1,5 @@
+part of 'exceptions.dart';
+
 class SdkException implements Exception {
   final String message;
 

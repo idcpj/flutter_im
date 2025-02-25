@@ -1,6 +1,6 @@
 import '../../constants/constants.dart';
 import '../../types/types.dart';
-import '../dao/repository/cache_repository.dart';
+import '../dao/repository/repository.dart';
 import 'base_service.dart';
 
 class ConfigService extends BaseService {

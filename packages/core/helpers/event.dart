@@ -20,11 +20,11 @@ class EventBus extends EventBusAbstract {
   @override
   void emit(CmdCode cmdCode, Message message) {
     if (_controllers[cmdCode] == null) {
-      log?.debug('[event] 指令不存在: $cmdCode=${cmdCode.value}');
+      log?.debug('[event] 指令不存在: $cmdCode=0x${cmdCode.value.toRadixString(16)}');
       return;
     }
 
-    _controllers[cmdCode]?.add(message);
+    _controllers[cmdCode]!.add(message);
   }
 
   /// 取消订阅指定cmdCode

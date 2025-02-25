@@ -1,4 +1,4 @@
-import 'sdk_exception.dart';
+part of 'exceptions.dart';
 
 class NotFoundDataException extends SdkException {
   NotFoundDataException(super.message);

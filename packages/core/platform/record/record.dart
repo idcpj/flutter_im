@@ -6,7 +6,7 @@ class Recorder {
   /// 开始录音
   /// [path] 录音文件保存路径
   Future<void> start({required String path}) async {
-    final config = const RecordConfig(
+    var config = const RecordConfig(
       encoder: AudioEncoder.wav,
       bitRate: 128000,
       sampleRate: 44100,

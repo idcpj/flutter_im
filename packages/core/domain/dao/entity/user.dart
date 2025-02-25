@@ -1,13 +1,11 @@
-import '../../../constants/constants.dart';
-import '../../../types/orm.dart';
+part of 'entity.dart';
 
 class User implements Table {
   @override
   String get tableName => 'hs_user';
 
   @override
-  Field get primaryKey =>
-      const Field(name: 'user_id', type: FieldType.string, isPrimary: true);
+  Field get primaryKey => const Field(name: 'user_id', type: FieldType.string, isPrimary: true);
 
   final String userId;
   String userLogin;

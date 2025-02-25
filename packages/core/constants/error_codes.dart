@@ -1,3 +1,5 @@
+part of 'constants.dart';
+
 class ErrorCodes {
   static String getMessage(int code) {
     switch (code) {

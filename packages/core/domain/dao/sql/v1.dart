@@ -1,3 +1,5 @@
+part of 'sql.dart';
+
 const sql_v1 = '''
 
 CREATE TABLE IF NOT EXISTS hs_user (
@@ -30,12 +32,12 @@ CREATE TABLE IF NOT EXISTS hs_user (
   user_level INTEGER DEFAULT 0,
   user_file_level INTEGER DEFAULT 0,
   user_order_id INTEGER DEFAULT 1000
-)
+);
 
 CREATE TABLE IF NOT EXISTS hs_config (
   config_id INTEGER PRIMARY KEY AUTOINCREMENT,
   config_key TEXT DEFAULT '',
   config_value TEXT DEFAULT '',
   config_type TEXT DEFAULT ''
-)
+);
 ''';

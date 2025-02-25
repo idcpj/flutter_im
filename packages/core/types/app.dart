@@ -1,10 +1,4 @@
-import '../../client_example/pages/feature_page.dart';
-import '../config/config_interface.dart';
-import '../constants/constants.dart';
-import '../domain/services/config_service.dart';
-import '../domain/services/db_service.dart';
-import '../domain/services/user_service.dart';
-import 'types.dart';
+part of 'types.dart';
 
 abstract class AppAbstract {
   // 初始化
@@ -45,4 +39,6 @@ abstract class AppAbstract {
   AppConfigAbstract get config;
 
   ConfigService get configService;
+
+  SystemService get systemService;
 }

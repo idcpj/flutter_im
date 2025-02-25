@@ -1,3 +1,5 @@
+part of 'constants.dart';
+
 enum LoginResKey {
   // 服务器信息
   webserver('webserver'),

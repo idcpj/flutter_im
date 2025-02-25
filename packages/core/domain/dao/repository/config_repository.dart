@@ -1,4 +1,4 @@
-import 'base_repository.dart';
+part of 'repository.dart';
 
 class ConfigRepository extends BaseRepository {
   static ConfigRepository? _instance;

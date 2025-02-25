@@ -1,4 +1,4 @@
-import '../../../types/orm.dart';
+part of 'entity.dart';
 
 class Config implements Table {
   String get tableName => 'hs_config';

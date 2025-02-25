@@ -5,6 +5,7 @@ import '../config/config.dart';
 import '../constants/constants.dart';
 import '../domain/services/config_service.dart';
 import '../domain/services/db_service.dart';
+import '../domain/services/system_service.dart';
 import '../domain/services/user_service.dart';
 import '../helpers/event.dart';
 import '../io/tcp_client.dart';
@@ -21,6 +22,7 @@ class MobileApp implements AppAbstract {
   UserService? _userService;
   ConfigService? _configService;
   DbService? _dbService;
+  SystemService? _systemService;
 
   MobileApp() {
     //config
@@ -77,7 +79,12 @@ class MobileApp implements AppAbstract {
     _config!.setSaasId(saasid);
     _config!.setUserId(userId);
 
+    _log!.debug('[app] 初始化数据库');
     await _dbService!.initAfterLogin();
+
+    //  登录成功后触发心跳
+    _systemService!.cmdHeart();
+    _log!.debug('[app] 触发心跳');
   }
 
   @override
@@ -139,4 +146,7 @@ class MobileApp implements AppAbstract {
 
   @override
   LogAbstract get log => _log!;
+
+  @override
+  SystemService get systemService => _systemService!;
 }

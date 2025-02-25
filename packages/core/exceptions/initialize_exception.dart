@@ -1,4 +1,4 @@
-import 'sdk_exception.dart';
+part of 'exceptions.dart';
 
 class InitializeException extends SdkException {
   InitializeException(super.message);

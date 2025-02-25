@@ -1,4 +1,4 @@
-import '../exceptions/exceptions.dart';
+part of 'constants.dart';
 
 enum CmdCode {
   //UpBalanceServer

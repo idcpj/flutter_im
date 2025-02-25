@@ -1,4 +1,4 @@
-import 'base_repository.dart';
+part of 'repository.dart';
 
 class UserRepository extends BaseRepository {
   static UserRepository? _instance;

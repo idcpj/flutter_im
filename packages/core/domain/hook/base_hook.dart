@@ -7,8 +7,8 @@ abstract class BaseHook {
 
   BaseHook(this.app);
 
-  void checkCode(StaticCode code, Message data, need) {
-    if (code != 0) {
+  void checkCode(StaticCode code, Message data) {
+    if (code != StaticCode.normal) {
       throw SdkException(/* 
           ErrorCodes.getMessage(code) + */
           "  cmd=" + data.header.cmd);
@@ -16,7 +16,7 @@ abstract class BaseHook {
   }
 
   bool checkCodeNotException(StaticCode code) {
-    if (code != 0) {
+    if (code != StaticCode.normal) {
       return false;
     }
     return true;

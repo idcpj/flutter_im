@@ -1,5 +1,4 @@
-import 'sdk_exception.dart';
-import '../constants/constants.dart';
+part of 'exceptions.dart';
 
 class CodeException extends SdkException {
   final int code;

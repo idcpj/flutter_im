@@ -1,6 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 
-import '../../exceptions/permission_exception.dart';
+import '../../exceptions/exceptions.dart';
 
 class GeolocatorPlatform {
   static final GeolocatorPlatform instance = GeolocatorPlatform._();
@@ -41,8 +41,7 @@ class GeolocatorPlatform {
     }
 
     final permission = await checkPermission();
-    final res = (permission == LocationPermission.always) ||
-        (permission == LocationPermission.whileInUse);
+    final res = (permission == LocationPermission.always) || (permission == LocationPermission.whileInUse);
 
     if (!res) {
       throw PermissionException('位置权限未开启');

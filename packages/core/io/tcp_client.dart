@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import '../config/config_interface.dart';
 import '../types/types.dart';
 
 class TcpClient extends SocketAbstract {

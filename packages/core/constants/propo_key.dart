@@ -1,3 +1,5 @@
+part of 'constants.dart';
+
 enum PropKeyType {
   msgId("msgid"),
   cmdId("cmdid"),
