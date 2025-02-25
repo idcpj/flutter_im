@@ -41,6 +41,7 @@ class MobileApp implements AppAbstract {
     _userService = UserService(app: this);
     _configService = ConfigService(app: this);
     _dbService = DbService(app: this);
+    _systemService = SystemService(app: this);
   }
 
   @override

@@ -22,8 +22,6 @@ class UserHook extends BaseHook {
     // 登录后进行初始化
     await app.afterLogin(data);
 
-    debugPrint('[UserHook]  登录成功 $data');
-
     final userId = data.params[0];
     final saasid = data.params[1];
 

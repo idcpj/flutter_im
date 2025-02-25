@@ -1,4 +1,6 @@
 import 'package:core/constants/constants.dart';
+import 'package:core/domain/dao/entity/entity.dart';
+import 'package:core/domain/dao/repository/repository.dart';
 import 'package:core/platform/device/device_info.dart';
 import 'package:core/helpers/platform.dart';
 import 'package:core/domain/hook/user_hook.dart';
@@ -57,5 +59,9 @@ class UserService extends BaseService {
     }
 
     send(msg);
+  }
+
+  Future<User?> dbGetUserById(String userId) async {
+    return await UserRepository().findById(User(userId: userId));
   }
 }

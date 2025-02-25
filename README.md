@@ -11,7 +11,6 @@ packages
  - client_example 用于测试相关库是否能在鸿蒙中运行
  - client_mobile  移动端客户(Android,IOS,Harmony,Web)
  - core 核心库,用于封装 sdk
-
 ```
 
 
@@ -20,6 +19,8 @@ packages
 暂不支持 worksapce ,但是写法上先按 workspace,之后等 fltter harmony 更新到 dart>3.5
 
 # 鸿蒙
+
+flutter: https://gitee.com/harmonycommando_flutter/flutter
 
 ## 注意
 - 检查 `ohos/build-profile.json5` 中的 `compatibleSdkVersion` 是否与虚拟机中鸿蒙版本一致

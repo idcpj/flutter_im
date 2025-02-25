@@ -46,6 +46,6 @@ abstract class BaseRepository {
     return await db.rawInsert('''
       REPLACE INTO ${item.tableName} (${item.fields.map((e) => e.name).join(',')})
       VALUES (${item.fields.map((e) => '?').join(',')})
-    ''', item.fields.map((e) => item.toMap()[e.name]).toList());
+    ''', item.toMap().values.toList());
   }
 }

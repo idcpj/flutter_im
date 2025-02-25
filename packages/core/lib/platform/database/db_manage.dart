@@ -21,6 +21,10 @@ class DbManage {
   }
 
   Future<void> initialize(String path, String dbName, OpenDatabaseOptions opts) async {
+    // if (kDebugMode) {
+    await Sqflite.devSetDebugModeOn(true);
+    // }
+
     if (Platform.isWeb) {
       // Web平台初始化
       _db = DbWeb();

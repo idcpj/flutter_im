@@ -5,6 +5,9 @@ scripts:
   example:
     run: melos exec --scope="client_example" -- "flutter run -d 7784fbf6"
     description: Run example
+  example:bundle:
+    run: melos exec --scope="client_example" -- "flutter build hap"
+    description: Run example
   bootstrap:
     run: melos bootstrap
     description: Bootstrap all packages
