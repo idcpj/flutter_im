@@ -176,21 +176,35 @@ class FeaturePage extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => Scaffold(
           appBar: AppBar(title: const Text('相机预览')),
-          body: CameraPreview(controller),
-          floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.camera),
-            onPressed: () async {
-              try {
-                final image = await controller.takePicture();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('照片已保存: ${image.path}')),
-                );
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('拍照失败: $e')),
-                );
-              }
-            },
+          body: Stack(
+            children: [
+              CameraPreview(controller),
+              Positioned(
+                bottom: 20,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        final image = await controller.takePicture();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('照片已保存: ${image.path}')),
+                        );
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('拍照失败: $e')),
+                        );
+                      }
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                      child: Text('拍照'),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

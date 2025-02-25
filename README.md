@@ -24,7 +24,7 @@ flutter: https://gitee.com/harmonycommando_flutter/flutter
 
 ## 注意
 - 检查 `ohos/build-profile.json5` 中的 `compatibleSdkVersion` 是否与虚拟机中鸿蒙版本一致
-
+- FloatingActionButton 在`flutter run --debug` 鸿蒙中使用会报错,需要移除
 
 
 ## TODO
