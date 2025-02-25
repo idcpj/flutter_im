@@ -1,0 +1,13 @@
+name: flutter_im
+packages:
+  - packages/*
+scripts:
+  example:
+    run: melos exec --scope="client_example" -- "flutter run -d 7784fbf6"
+    description: Run example
+  bootstrap:
+    run: melos bootstrap
+    description: Bootstrap all packages
+  analyze:
+    run: melos exec -- "dart analyze"
+    description: Run analysis on all packages
